@@ -2,12 +2,8 @@
 <html lang="en"> 
 <head> 
     <meta charset="UTF-8" />
-    <title> Zelda Like! </title>
+    <title> Test platformer </title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
-    <script type="text/javascript" src="menu.js"></script>
-    <script type="text/javascript" src="SceneDebutJeu.js"></script>
-    <script type="text/javascript" src="SceneGauche.js"></script>
-    <script type="text/javascript" src="SceneHaut.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -27,21 +23,26 @@ var config = {
         arcade: {
             gravity: { y: 0 },
             debug: true}},
-    scene: [],
+    //scene: [],
     input:{gamepad:true},
 };
     
     
-
+var player;
+    
 function preload ()
 {
+    this.load.image('fond_test', 'assets_test/fond_test.png');
+    this.load.image('perso_test', 'assets_test/perso_test.png');
     
 }
     
     
 function create ()
 {
-    
+    this.add.image(960, 540, 'fond_test');
+    player = this.physics.add.image(960, 540, 'perso_test');
+    player.setCollideWorldBounds(true);
 }
     
     
