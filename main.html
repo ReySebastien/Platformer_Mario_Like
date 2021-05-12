@@ -17,42 +17,110 @@
 var config = {
     type: Phaser.AUTO,
     width: 1920,
-    height: 1080,
+    height: 600,
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 0 },
-            debug: true}},
-    //scene: [],
-    input:{gamepad:true},
+            gravity: { y: 100 },
+            debug: true
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update,
+    }
 };
     
+var game = new Phaser.Game(config);
+    
+    //VARIABLES ------------------------------------------------------------------------------------
     
 var player;
-    
+var sol;
+var cursors;
+var ennemi;
+var plateforme;
+var hook;
+
 function preload ()
 {
     this.load.image('fond_test', 'assets_test/fond_test.png');
     this.load.image('perso_test', 'assets_test/perso_test.png');
+    this.load.image('sol', 'assets_test/bon_sol.png');
+    this.load.image('ennemi', 'assets_test/ennemi_test.png');
     
 }
     
     
 function create ()
 {
-    this.add.image(960, 540, 'fond_test');
-    player = this.physics.add.image(960, 540, 'perso_test');
+    
+    //CREATION DE LA MAP -----------------------------------------------------------------------------
+    this.add.image(960, 300, 'fond_test');
+    sol = this.physics.add.image(960, 400, 'sol');
+    sol.setCollideWorldBounds(true);
+    plateforme = this.physics.add.staticGroup();
+    plateforme.create(1800, 0, 'sol');
+    
+    //CREATION PLAYER --------------------------------------------------------------------------------
+    player = this.physics.add.image(960, 300, 'perso_test');
     player.setCollideWorldBounds(true);
+    
+    //CREATION ENNEMI -------------------------------------------------------------------------------
+    ennemi = this.physics.add.image(1200, 300, 'ennemi');
+    ennemi.setCollideWorldBounds(true);
+    
+    //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
+    cursors = this.input.keyboard.createCursorKeys();
+
+    //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
+    this.physics.add.collider(player, sol);
+    this.physics.add.collider(player, ennemi);
+    this.physics.add.collider(ennemi, sol);
+    this.physics.add.collider(player, plateforme);
+    
+    this.cameras.main.setBounds(0, 0, 1920, 600)
+    this.cameras.main.setSize(800, 600);
+    this.cameras.main.startFollow(player);
+    
 }
     
     
     
 function update ()
 {
+    
+    if (cursors.left.isDown)
+    {
+        player.setVelocityX(-750);
+    }
+    
+    else if (cursors.right.isDown)
+    {
+        player.setVelocityX(750);
+    }
+    
+    else
+    {
+        player.setVelocityX(0);
+    }
+    
+    if(cursors.up.isDown)
+    {
+        player.setVelocityY(-750);
+    }
+    
+    
+
+    if (cursors.down.isDown){
+        player.setVelocityY(750)
+    }
 
 }
     
+    
 </script>
-
+    
 </body>
 </html>
