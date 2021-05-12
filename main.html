@@ -1,0 +1,57 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title> Zelda Like! </title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script type="text/javascript" src="menu.js"></script>
+    <script type="text/javascript" src="SceneDebutJeu.js"></script>
+    <script type="text/javascript" src="SceneGauche.js"></script>
+    <script type="text/javascript" src="SceneHaut.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var config = {
+    type: Phaser.AUTO,
+    width: 1920,
+    height: 1080,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: true}},
+    scene: [Menu, DebutJeu, SceneGauche, SceneHaut],
+    input:{gamepad:true},
+};
+    
+    
+
+function preload ()
+{
+    
+}
+    
+    
+function create ()
+{
+    
+}
+    
+    
+    
+function update ()
+{
+
+}
+    
+</script>
+
+</body>
+</html>
