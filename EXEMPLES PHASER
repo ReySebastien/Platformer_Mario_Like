@@ -1,0 +1,10 @@
+https://phaser.io/examples/v3/view/input/pointer/down-event
+
+https://phaser.io/examples/v3/view/physics/arcade/move-and-stop-at-position
+
+https://phaser.io/examples/v3/view/physics/arcade/velocity-from-angle
+
+
+Lasso sans physique de balancier
+Le joueur jette son lasso sur une plateforme au dessus de lui pour grimper sur cette dernière
+Le Lasso peut attirer des ennemis vers soit
