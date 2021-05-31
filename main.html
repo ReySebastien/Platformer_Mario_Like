@@ -21,7 +21,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 100 },
+            gravity: { y: 2000 },
             debug: true
         }
     },
@@ -41,7 +41,6 @@ var sol;
 var cursors;
 var ennemi;
 var plateforme;
-var hook;
 
 function preload ()
 {
@@ -49,6 +48,8 @@ function preload ()
     this.load.image('perso_test', 'assets_test/perso_test.png');
     this.load.image('sol', 'assets_test/bon_sol.png');
     this.load.image('ennemi', 'assets_test/ennemi_test.png');
+    this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
+
     
 }
     
@@ -64,9 +65,11 @@ function create ()
     plateforme.create(1800, 0, 'sol');
     
     //CREATION PLAYER --------------------------------------------------------------------------------
-    player = this.physics.add.image(960, 300, 'perso_test');
+    //player = this.physics.add.image(960, 300, 'perso_test');
+    //player.setCollideWorldBounds(true);
+    player = this.physics.add.sprite(this.positionX, this.positionY, 'dude').setSize(28, 15).setOffset(2, 33);
+    player.direction = 'down';
     player.setCollideWorldBounds(true);
-    
     //CREATION ENNEMI -------------------------------------------------------------------------------
     ennemi = this.physics.add.image(1200, 300, 'ennemi');
     ennemi.setCollideWorldBounds(true);
@@ -81,8 +84,34 @@ function create ()
     this.physics.add.collider(player, plateforme);
     
     this.cameras.main.setBounds(0, 0, 1920, 600)
-    this.cameras.main.setSize(800, 600);
+    this.cameras.main.setSize(1920, 600);
     this.cameras.main.startFollow(player);
+    
+    this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 2 }),
+            frameRate: 10,
+        });
+
+    this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('dude', { start: 3, end: 5 }),
+            frameRate: 10,
+        });
+
+    this.anims.create({
+            key: 'reste_right',
+            frames: [ {key: 'dude', frame: 3}],
+        });
+
+    this.anims.create({
+            key: 'reste_left',
+            frames: [{key: 'dude', frame: 2}],
+        });
+    
+    this.hook = this.physics.add.group({});
+    
+    this.input.on('pointerdown', shoot, this);
     
 }
     
@@ -94,16 +123,26 @@ function update ()
     if (cursors.left.isDown)
     {
         player.setVelocityX(-750);
+        player.direction = 'left';
+        player.anims.play('left', true);
     }
     
     else if (cursors.right.isDown)
     {
         player.setVelocityX(750);
+        player.direction = 'right';
+        player.anims.play('right', true);
     }
     
     else
     {
         player.setVelocityX(0);
+        if (player.direction == 'left'){
+            player.anims.play('reste_left');
+        }
+        else if(player.direction == 'right'){
+            player.anims.play('reste_right');
+        }
     }
     
     if(cursors.up.isDown)
@@ -118,6 +157,36 @@ function update ()
     }
 
 }
+
+function shoot (pointer){    
+    console.log(pointer.x, pointer.y);
+    
+      var hook = this.hook.get(player.x, player.y);
+      if (hook) {
+        hook.setActive(true);
+        hook.setVisible(true);
+
+
+          //Calcul de coordonnées du vecteur entre les deux projectiles
+          dY = ( pointer.y - player.y);
+          
+          if(pointer.x > player.x){
+          dX = Math.abs(( pointer.x - player.x));
+          }
+          
+          else if(pointer.x < player.x){
+              dX = (pointer.x - player.x);
+          }
+
+          //Distance à ajouter pour atteindre la constante vitesse.
+          dSpeed = (2000/(Math.abs(dY)+Math.abs(dX))); 
+
+          hook.body.velocity.y = dY*dSpeed;
+          hook.body.velocity.x = dX*dSpeed;
+      
+    }
+}
+
     
     
 </script>
