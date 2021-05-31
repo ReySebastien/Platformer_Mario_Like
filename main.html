@@ -183,8 +183,11 @@ function shoot (pointer){
 
           hook.body.velocity.y = dY*dSpeed;
           hook.body.velocity.x = dX*dSpeed;
-      
     }
+}
+    
+function hookHitEnnemies(hook, ennemi){
+     scene.physics.moveToObject(ennemi, this.hook, this.grappin.dSpeed);
 }
 
     
