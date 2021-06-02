@@ -58,6 +58,7 @@ function preload ()
 function create ()
 {
     
+    this.test = this;
     //CREATION DE LA MAP -----------------------------------------------------------------------------
     this.add.image(960, 300, 'fond_test');
     sol = this.physics.add.image(960, 400, 'sol');
@@ -122,6 +123,7 @@ function create ()
     
     this.hook = this.physics.add.group({});
 
+    this.physics.add.overlap(ennemi, this.hook, hookHitEnnemies, null, this);
     
     this.input.on('pointerdown', shoot, this);
     
@@ -203,7 +205,8 @@ function shoot (pointer){
     
     
 function hookHitEnnemies(hook, ennemi){
-     scene.physics.moveToObject(ennemi, this.hook, this.grappin.dSpeed);
+     this.test.physics.moveToObject(player, ennemi, hook.dSpeed);
+    
 }
 
     
