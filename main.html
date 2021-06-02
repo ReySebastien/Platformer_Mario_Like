@@ -41,6 +41,7 @@ var sol;
 var cursors;
 var ennemi;
 var plateforme;
+var tirer = false;
 
 function preload ()
 {
@@ -89,25 +90,35 @@ function create ()
     
     this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 2 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 1, end: 3 }),
             frameRate: 10,
         });
 
     this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('dude', { start: 3, end: 5 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 4, end: 6 }),
             frameRate: 10,
         });
 
     this.anims.create({
             key: 'reste_right',
-            frames: [ {key: 'dude', frame: 3}],
+            frames: [ {key: 'dude', frame: 4}],
         });
 
     this.anims.create({
             key: 'reste_left',
-            frames: [{key: 'dude', frame: 2}],
+            frames: [{key: 'dude', frame: 3}],
         });
+    
+    this.anims.create({
+            key: 'shoot_left',
+            frames: [{key: 'dude', frame : 0}],
+    })
+    
+    this.anims.create({
+            key: 'shoot_right',
+            frames: [{key: 'dude', frame : 7}],
+    })
     
     this.hook = this.physics.add.group({});
     
@@ -138,10 +149,10 @@ function update ()
     {
         player.setVelocityX(0);
         if (player.direction == 'left'){
-            player.anims.play('reste_left');
+            player.anims.play('shoot_left');
         }
         else if(player.direction == 'right'){
-            player.anims.play('reste_right');
+            player.anims.play('shoot_right');
         }
     }
     
@@ -186,8 +197,9 @@ function shoot (pointer){
 
           hook.body.velocity.y = dY*dSpeed;
           hook.body.velocity.x = dX*dSpeed;
-    }
+        }
 }
+    
     
 function hookHitEnnemies(hook, ennemi){
      scene.physics.moveToObject(ennemi, this.hook, this.grappin.dSpeed);
