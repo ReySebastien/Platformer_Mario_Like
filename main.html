@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8" />
     <title> Test platformer </title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -84,7 +84,7 @@ function create ()
     this.physics.add.collider(player, plateforme);
     
     this.cameras.main.setBounds(0, 0, 1920, 600)
-    this.cameras.main.setSize(1920, 600);
+    this.cameras.main.setSize(800, 600);
     this.cameras.main.startFollow(player);
     
     this.anims.create({
@@ -160,18 +160,21 @@ function update ()
 
 function shoot (pointer){    
     console.log(pointer.x, pointer.y);
+    console.log(player.x, player.y);
+    console.log(this.cameras.main.scrollX, this.cameras.main.scrollY);
     
       var hook = this.hook.get(player.x, player.y);
       if (hook) {
         hook.setActive(true);
         hook.setVisible(true);
 
-
           //Calcul de coordonnées du vecteur entre les deux projectiles
           dY = ( pointer.y - player.y);
           
+          pointer.x += this.cameras.main.scrollX
+          
           if(pointer.x > player.x){
-          dX = Math.abs(( pointer.x - player.x));
+          dX = (pointer.x - player.x);
           }
           
           else if(pointer.x < player.x){
