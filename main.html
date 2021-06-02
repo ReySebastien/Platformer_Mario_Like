@@ -21,7 +21,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 2000 },
+            gravity: { y: 1800 },
             debug: true
         }
     },
@@ -121,6 +121,7 @@ function create ()
     })
     
     this.hook = this.physics.add.group({});
+
     
     this.input.on('pointerdown', shoot, this);
     
@@ -133,14 +134,14 @@ function update ()
     
     if (cursors.left.isDown)
     {
-        player.setVelocityX(-750);
+        player.setVelocityX(-300);
         player.direction = 'left';
         player.anims.play('left', true);
     }
     
     else if (cursors.right.isDown)
     {
-        player.setVelocityX(750);
+        player.setVelocityX(300);
         player.direction = 'right';
         player.anims.play('right', true);
     }
@@ -158,13 +159,13 @@ function update ()
     
     if(cursors.up.isDown)
     {
-        player.setVelocityY(-750);
+        player.setVelocityY(-300);
     }
     
     
 
     if (cursors.down.isDown){
-        player.setVelocityY(750)
+        player.setVelocityY(300)
     }
 
 }
@@ -178,7 +179,6 @@ function shoot (pointer){
       if (hook) {
         hook.setActive(true);
         hook.setVisible(true);
-
           //Calcul de coordonnées du vecteur entre les deux projectiles
           dY = ( pointer.y - player.y);
           
@@ -193,8 +193,9 @@ function shoot (pointer){
           }
 
           //Distance à ajouter pour atteindre la constante vitesse.
-          dSpeed = (2000/(Math.abs(dY)+Math.abs(dX))); 
+          dSpeed = (1300/(Math.abs(dY)+Math.abs(dX))); 
 
+          hook.body.setAllowGravity(false);
           hook.body.velocity.y = dY*dSpeed;
           hook.body.velocity.x = dX*dSpeed;
         }
