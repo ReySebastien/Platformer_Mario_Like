@@ -16,8 +16,8 @@
 
 var config = {
     type: Phaser.AUTO,
-    width: 1920,
-    height: 600,
+    width: 5000,
+    height: 576,
     physics: {
         default: 'arcade',
         arcade: {
@@ -85,8 +85,8 @@ function create ()
     this.physics.add.collider(ennemi, sol);
     this.physics.add.collider(player, plateforme);
     
-    this.cameras.main.setBounds(0, 0, 1920, 600)
-    this.cameras.main.setSize(800, 600);
+    this.cameras.main.setBounds(0, 0, 5000, 576)
+    this.cameras.main.setSize(800, 576);
     this.cameras.main.startFollow(player);
     
     this.anims.create({
