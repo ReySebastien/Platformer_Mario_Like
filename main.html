@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <title> Test platformer </title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <script type="text/javascript" src="menu.js"></script>
+    <script type="text/javascript" src="niveau1.js"></script>
+    <script type="text/javascript" src="mine.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -25,18 +28,24 @@ var config = {
             debug: true
         }
     },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update,
-    }
+    scene: [Menu, Niveau1, Mine],
 };
+    var game = new Phaser.Game(config);
     
-var game = new Phaser.Game(config);
+
+
+function create ()
+{
+    cursors = this.input.keyboard.createCursorKeys();
+    boutonFeu = this.input.keyboard.addKey('space');
+    player.setCollideWorldBounds(true);
     
+    this.scene.start("Menu")
+    
+}
     //VARIABLES ------------------------------------------------------------------------------------
     
-var player;
+/*var player;
 var sol;
 var cursors;
 var ennemi;
@@ -206,7 +215,7 @@ function shoot (pointer){
 function hookHitEnnemies(hook, ennemi){
      this.test.physics.moveToObject(player, ennemi, hook.dSpeed);
     
-}
+}*/
 
     
     
