@@ -5,7 +5,7 @@ class Niveau1 extends Phaser.Scene{
 
 preload ()
 {
-    this.load.image('fond_test', 'assets_test/fond_test.png');
+    this.load.image('fond', 'assets/fond.png');
     this.load.image('perso_test', 'assets_test/perso_test.png');
     this.load.image('sol', 'assets_test/bon_sol.png');
     this.load.image('ennemi', 'assets_test/ennemi_test.png');
@@ -20,7 +20,7 @@ create ()
     
     this.test = this;
     //CREATION DE LA MAP -----------------------------------------------------------------------------
-    this.add.image(960, 300, 'fond_test');
+    this.add.image(2500, 288, 'fond');
     this.sol = this.physics.add.image(960, 400, 'sol');
     this.sol.setCollideWorldBounds(true);
     this.plateforme = this.physics.add.staticGroup();

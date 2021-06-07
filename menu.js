@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene{
     
     preload()
     {
-        this.load.image('menu', 'assets/menu.png');
+        this.load.image('menu', 'assets/menuV2.png');
         
     } // FIN PRELOAD
         
@@ -13,7 +13,7 @@ class Menu extends Phaser.Scene{
 
     create(){
         
-        this.add.image(640, 360, 'menu');
+        this.add.image(400, 288, 'menu');
         
         this.input.once('pointerdown', function (event) {
 
