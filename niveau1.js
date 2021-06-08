@@ -10,7 +10,6 @@ preload ()
     this.load.image('sol', 'assets_test/bon_sol.png');
     this.load.image('ennemi', 'assets_test/ennemi_test.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
-
     
 }
     
@@ -29,7 +28,7 @@ create ()
     //CREATION PLAYER --------------------------------------------------------------------------------
     //player = this.physics.add.image(960, 300, 'perso_test');
     //player.setCollideWorldBounds(true);
-    this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude').setSize(28, 15).setOffset(2, 33);
+    this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude');
     this.player.direction = 'down';
     this.player.setCollideWorldBounds(true);
     //CREATION ENNEMI -------------------------------------------------------------------------------
@@ -165,8 +164,20 @@ update ()
     
     
 hookHitEnnemies(hook, ennemi){
-     //this.test.physics.moveToObject(this.ennemi, this.hook, this.hook.dSpeed);
     
+    this.physics.moveToObject(this.ennemi, this.player, 600);
+
+    console.log('velocity', this.ennemi.body.velocity.x);
+
+    var collider = this.physics.add.overlap(this.ennemi, this.player, function (ennemiOnBlock)
+    {
+        ennemiOnBlock.body.stop();
+
+        this.physics.world.removeCollider(collider);
+    }, null, this);
+    
+    //hook.body.destroy();
+
 }
     
     
