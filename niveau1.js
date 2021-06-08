@@ -86,7 +86,7 @@ create ()
     this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
     
     this.input.on('pointerdown', this.shoot, this);
-    
+ 
 }
     
     
@@ -165,7 +165,7 @@ update ()
     
     
 hookHitEnnemies(hook, ennemi){
-     this.test.physics.moveToObject(this.player, this.ennemi, this.hook.dSpeed);
+     //this.test.physics.moveToObject(this.ennemi, this.hook, this.hook.dSpeed);
     
 }
     
