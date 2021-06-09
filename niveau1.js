@@ -37,6 +37,9 @@ create ()
     
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
     this.cursors = this.input.keyboard.createCursorKeys();
+    
+    //AJOUT INTERFACE JOUEUR --------------------------------------------------------------------------
+    
 
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
@@ -80,10 +83,17 @@ create ()
             frames: [{key: 'dude', frame : 7}],
     })
     
+    // CREATION DU LASSO ---------------------------------------------------------------------------------
+    
     this.hook = this.physics.add.group({});
 
-    this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
+    // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
     
+    this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
+    //this.physics.add.overlap(this.plateforme, this.hook, this.hookHitPlatforms, null, this);
+    
+    //AJOUT DE LA FONCTION DE TIR SI ON CLIQUE --------------------------------------------------------------
+
     this.input.on('pointerdown', this.shoot, this);
  
 }
@@ -129,7 +139,7 @@ update ()
         this.player.setVelocityY(300)
     }
 
-}
+} // FIN UPDATE ------------------------------------------------------------------------------
 
     shoot (pointer){    
     console.log(pointer.x, pointer.y);
@@ -160,7 +170,7 @@ update ()
           hook.body.velocity.y = this.dY*this.dSpeed;
           hook.body.velocity.x = this.dX*this.dSpeed;
         }
-}
+} // FIN SHOOT -----------------------------------------------------------------------------------
     
     
 hookHitEnnemies(hook, ennemi){
@@ -169,7 +179,7 @@ hookHitEnnemies(hook, ennemi){
 
     console.log('velocity', this.ennemi.body.velocity.x);
 
-    var collider = this.physics.add.overlap(this.ennemi, this.player, function (ennemiOnBlock)
+    var colliderEnnemi = this.physics.add.overlap(this.ennemi, this.player, function (ennemiOnBlock)
     {
         ennemiOnBlock.body.stop();
 
@@ -177,12 +187,22 @@ hookHitEnnemies(hook, ennemi){
     }, null, this);
     
     //hook.body.destroy();
+    
+} // FIN HOOKHITENNEMIES -----------------------------------------------------------------------------
+    
+hookHitPlatforms(hook, player){
+    
+    this.physics.moveToObject(this.player, this.plateforme, 600);
 
-}
+    console.log('velocity', this.player.body.velocity.x);
+
+    var colliderPlayer = this.physics.add.overlap(this.player, this.plateforme, function (playerOnBlock)
+    {
+        playerOnBlock.body.stop();
+
+        this.physics.world.removeCollider(collider);
+    }, null, this);
     
+} //F FIN HOOKHITPLATFORMS --------------------------------------------------------------------------------
     
-    
-    
-    
-    
-} //FIN SCENE
+} //FIN SCENE ----------------------------------------------------------------------------------------------
