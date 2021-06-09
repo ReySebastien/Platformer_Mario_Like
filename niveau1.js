@@ -11,7 +11,7 @@ preload ()
     this.load.image('ennemi', 'assets_test/ennemi_test.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
     
-}
+} // FIN PRELOAD -----------------------------------------------------------------------------------------
     
     
 create ()
@@ -96,7 +96,7 @@ create ()
 
     this.input.on('pointerdown', this.shoot, this);
  
-}
+} // FIN CREATE ----------------------------------------------------------------------------------------------
     
     
     
@@ -175,21 +175,35 @@ update ()
     
 hookHitEnnemies(hook, ennemi){
     
+    //this.stop();
+    this.hookComesBack();
+
     this.physics.moveToObject(this.ennemi, this.player, 600);
 
     console.log('velocity', this.ennemi.body.velocity.x);
 
+    //this.destroyHook();
+    
     var colliderEnnemi = this.physics.add.overlap(this.ennemi, this.player, function (ennemiOnBlock)
     {
         ennemiOnBlock.body.stop();
 
         this.physics.world.removeCollider(collider);
     }, null, this);
-    
-    //hook.body.destroy();
-    
+        
 } // FIN HOOKHITENNEMIES -----------------------------------------------------------------------------
     
+hookComesBack(hook, player){
+    
+    this.physics.movetoObject(this.hook, this.player, 600);
+    
+    var colliderHook = this.physics.add.overlap(this.hook, this.player, function(hookOnBlock){
+        hookOnBlock.body.stop();
+        
+        this.physics.world.removeCollider(collider);
+    },null,this);
+    
+}
 hookHitPlatforms(hook, player){
     
     this.physics.moveToObject(this.player, this.plateforme, 600);
@@ -204,5 +218,14 @@ hookHitPlatforms(hook, player){
     }, null, this);
     
 } //F FIN HOOKHITPLATFORMS --------------------------------------------------------------------------------
+    stop (hook)        
+    {
+        this.hook.setVelocityX(0);
+        this.hook.setVelocityY(0);
+    }
     
+    destroyHook(hook)
+    {
+        this.physics.body.destroy();
+    }
 } //FIN SCENE ----------------------------------------------------------------------------------------------
