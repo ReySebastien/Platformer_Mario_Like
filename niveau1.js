@@ -50,6 +50,10 @@ create ()
     this.groupeBullets = this.physics.add.group();
 
     this.goldCoin = this.physics.add.group();
+    
+    // CREATION DU LASSO ---------------------------------------------------------------------------------
+    this.hook = this.physics.add.group({});
+    
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
     this.physics.add.collider(this.ennemi, this.sol);
@@ -61,6 +65,11 @@ create ()
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
+    
+    // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
+    
+    this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
+    //this.physics.add.overlap(this.plateforme, this.hook, this.hookHitPlatforms, null, this);
     
     // AJOUT CAMERA -----------------------------------------------------------------------------------
     
@@ -101,15 +110,6 @@ create ()
             key: 'shoot_right',
             frames: [{key: 'dude', frame : 7}],
     })
-    
-    // CREATION DU LASSO ---------------------------------------------------------------------------------
-    
-    this.hook = this.physics.add.group({});
-
-    // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
-    
-    this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
-    //this.physics.add.overlap(this.plateforme, this.hook, this.hookHitPlatforms, null, this);
     
     //AJOUT DE LA FONCTION DE TIR SI ON CLIQUE --------------------------------------------------------------
 
@@ -292,7 +292,7 @@ tirer(player) {
 
 hit (bullet, ennemi) {
         bullet.destroy();
-        this.goldCoin.create(this.ennemi.x, this.ennemi.y, 'gold_coin');
+        //this.goldCoin.create(this.ennemi.x, this.ennemi.y, 'gold_coin');
         this.ennemi.destroy();
 } // FIN HIT ------------------------------------------------------------------------------------------------------
 
