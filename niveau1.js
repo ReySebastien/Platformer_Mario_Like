@@ -14,6 +14,7 @@ preload ()
     this.load.image('barre_de_vie_1hp', 'assets/barre_de_vie_1hp.png');
     this.load.image('game_over', 'assets/game_over.png');
     this.load.image('balle', 'assets/balle.png');
+    this.load.image('gold_coin', 'assets/gold_coin.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
 
     
@@ -48,13 +49,18 @@ create ()
     // AJOUT DES BALLES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
 
+    this.goldCoin = this.physics.add.group();
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
     this.physics.add.collider(this.ennemi, this.sol);
     this.physics.add.collider(this.player, this.plateforme);
     this.physics.add.collider(this.ennemi, this.plateforme);
+    this.physics.add.collider(this.goldCoin, this.sol);
+    this.physics.add.collider(this.goldCoin, this.plateforme);
+    this.physics.add.collider(this.goldCoin, this.plateforme);
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
+    this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
     
     // AJOUT CAMERA -----------------------------------------------------------------------------------
     
@@ -283,14 +289,20 @@ tirer(player) {
         bullet.body.allowGravity =false;
         bullet.setVelocity(1000 * coefDirX, 1000 * coefDirY); // vitesse en x et en y
 } // FIN TIRER --------------------------------------------------------------------------------------------------- 
-    
-    stop (hook)        
+
+hit (bullet, ennemi) {
+        bullet.destroy();
+        this.goldCoin.create(this.ennemi.x, this.ennemi.y, 'gold_coin');
+        this.ennemi.destroy();
+} // FIN HIT ------------------------------------------------------------------------------------------------------
+
+stop (hook)        
     {
         this.hook.setVelocityX(0);
         this.hook.setVelocityY(0);
     }
     
-    destroyHook(hook)
+destroyHook(hook)
     {
         this.physics.body.destroy();
     }
