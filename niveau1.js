@@ -13,6 +13,7 @@ preload ()
     this.load.image('barre_de_vie_2hp', 'assets/barre_de_vie_2hp.png');
     this.load.image('barre_de_vie_1hp', 'assets/barre_de_vie_1hp.png');
     this.load.image('game_over', 'assets/game_over.png');
+    this.load.image('balle', 'assets/balle.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
 
     
@@ -39,9 +40,13 @@ create ()
     
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
     this.cursors = this.input.keyboard.createCursorKeys();
-    
+    this.boutonFeu = this.input.keyboard.addKey('space');
+
     //AJOUT INTERFACE JOUEUR --------------------------------------------------------------------------
     this.hp = this.add.image(600,50, "barre_de_vie_3hp").setScrollFactor(0);
+    
+    // AJOUT DES BALLES -------------------------------------------------------------------------------
+    this.groupeBullets = this.physics.add.group();
 
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
@@ -163,6 +168,10 @@ update ()
     else if (vie == 0){
         this.add.image(400, 336, 'game_over').setScrollFactor(0);
     }
+    
+    if (Phaser.Input.Keyboard.JustDown(this.boutonFeu)) {
+            this.tirer(this.player);
+        }
 
 } // FIN UPDATE ------------------------------------------------------------------------------
 
@@ -201,7 +210,7 @@ update ()
 hookHitEnnemies(hook, ennemi){
     
     //this.stop();
-    this.hookComesBack();
+    //this.hookComesBack();
 
     this.physics.moveToObject(this.ennemi, this.player, 600);
 
@@ -212,8 +221,6 @@ hookHitEnnemies(hook, ennemi){
     var colliderEnnemi = this.physics.add.overlap(this.ennemi, this.player, function (ennemiOnBlock)
     {
         ennemiOnBlock.body.stop();
-
-        this.physics.world.removeCollider(collider);
     }, null, this);
         
 } // FIN HOOKHITENNEMIES -----------------------------------------------------------------------------
@@ -263,6 +270,19 @@ hitEnnemi(player, ennemi){
         this.gameOver = true;
     }
  } // FIN HITENNEMI --------------------------------------------------------------------------------------------
+
+tirer(player) {
+	    var coefDirX;
+        var coefDirY;
+        if (this.player.direction == 'left') { coefDirX = -1; } else if(this.player.direction == 'right') { coefDirX = 1 } else {coefDirX = 0}
+        if (this.player.direction == 'up') {coefDirY = -1;} else if(this.player.direction == 'down') {coefDirY = 1} else {coefDirY =0}
+        // on crée la balle a coté du joueur
+        var bullet = this.groupeBullets.create(this.player.x + (25 * coefDirX), this.player.y - 4 , 'balle');
+        // parametres physiques de la balle.
+        bullet.setCollideWorldBounds(false);
+        bullet.body.allowGravity =false;
+        bullet.setVelocity(1000 * coefDirX, 1000 * coefDirY); // vitesse en x et en y
+} // FIN TIRER --------------------------------------------------------------------------------------------------- 
     
     stop (hook)        
     {
