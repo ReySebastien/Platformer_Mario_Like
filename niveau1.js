@@ -16,6 +16,10 @@ preload ()
     this.load.image('balle', 'assets/balle.png');
     this.load.image('gold_coin', 'assets/gold_coin.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
+    this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
+    this.load.image('map', 'assets/tileset.png');
+
+
 
     
 } // FIN PRELOAD -----------------------------------------------------------------------------------------
@@ -25,11 +29,17 @@ create ()
 {
     
     //CREATION DE LA MAP -----------------------------------------------------------------------------
-    this.add.image(2500, 288, 'fond');
-    this.sol = this.physics.add.image(960, 400, 'sol');
-    this.sol.setCollideWorldBounds(true);
-    this.plateforme = this.physics.add.staticGroup();
-    this.plateforme.create(1800, 0, 'sol');
+    //this.add.image(2500, 288, 'fond');
+    //this.sol = this.physics.add.image(960, 400, 'sol');
+    //this.sol.setCollideWorldBounds(true);
+    //this.plateforme = this.physics.add.staticGroup();
+    //this.plateforme.create(1800, 0, 'sol');
+
+    this.map = this.make.tilemap({ key: 'map_jeu' });
+    this.tileset = this.map.addTilesetImage('tileset', 'map');
+    this.sol = this.map.createStaticLayer('Sol', this.tileset, 0, 0);
+    this.fond = this.map.createStaticLayer('Fond', this.tileset, 0, 0);
+    this.objets = this.map.createDynamicLayer('Objets', this.tileset, 0, 0);
     
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude');
@@ -65,6 +75,9 @@ create ()
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
+    
+    this.physics.add.collider(this.player, this.objets);
+    this.objets.setCollisionByProperty({collides:true});
     
     // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
     
