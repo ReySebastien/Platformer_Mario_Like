@@ -22,7 +22,6 @@ preload ()
 create ()
 {
     
-    this.test = this;
     //CREATION DE LA MAP -----------------------------------------------------------------------------
     this.add.image(2500, 288, 'fond');
     this.sol = this.physics.add.image(960, 400, 'sol');
@@ -31,8 +30,6 @@ create ()
     this.plateforme.create(1800, 0, 'sol');
     
     //CREATION PLAYER --------------------------------------------------------------------------------
-    //player = this.physics.add.image(960, 300, 'perso_test');
-    //player.setCollideWorldBounds(true);
     this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude');
     this.player.direction = 'down';
     this.player.setCollideWorldBounds(true);
@@ -48,13 +45,19 @@ create ()
 
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
-    this.physics.add.collider(this.player, this.ennemi);
     this.physics.add.collider(this.ennemi, this.sol);
     this.physics.add.collider(this.player, this.plateforme);
+    this.physics.add.collider(this.ennemi, this.plateforme);
+    
+    this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
+    
+    // AJOUT CAMERA -----------------------------------------------------------------------------------
     
     this.cameras.main.setBounds(0, 0, 5000, 576)
     this.cameras.main.setSize(800, 576);
     this.cameras.main.startFollow(this.player);
+    
+    // AJOUT ANIMATION DU JOUEUR -----------------------------------------------------------------------
     
     this.anims.create({
             key: 'left',
@@ -239,7 +242,28 @@ hookHitPlatforms(hook, player){
         this.physics.world.removeCollider(collider);
     }, null, this);
     
-} //F FIN HOOKHITPLATFORMS --------------------------------------------------------------------------------
+} // FIN HOOKHITPLATFORMS --------------------------------------------------------------------------------
+    
+hitEnnemi(player, ennemi){
+     
+    if (!invulnerabilite){
+        vie -= 1;
+        invulnerabilite = true;
+        
+        if(vie > 0){
+            this.clignotement = this.time.addEvent({ delay : 200, repeat: 9, callback: function(){this.player.visible = !this.player.visible;}, callbackScope: this});
+        }
+        
+        this.tempsInvulnerabilite = this.time.addEvent({ delay : 2000, callback: function(){invulnerabilite = false}, callbackScope: this});
+    }
+     
+     if(vie == 0){
+        this.player.setTint(0xff0000);
+        this.physics.pause();
+        this.gameOver = true;
+    }
+ } // FIN HITENNEMI --------------------------------------------------------------------------------------------
+    
     stop (hook)        
     {
         this.hook.setVelocityX(0);
@@ -250,4 +274,6 @@ hookHitPlatforms(hook, player){
     {
         this.physics.body.destroy();
     }
+    
+
 } //FIN SCENE ----------------------------------------------------------------------------------------------
