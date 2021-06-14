@@ -36,10 +36,13 @@ create ()
     //this.plateforme.create(1800, 0, 'sol');
 
     this.map = this.make.tilemap({ key: 'map_jeu' });
-    this.tileset = this.map.addTilesetImage('tileset', 'map');
-    this.sol = this.map.createStaticLayer('Sol', this.tileset, 0, 0);
+    this.tileset = this.map.addTilesetImage('Tileset_Gold_mine', 'map');
     this.fond = this.map.createStaticLayer('Fond', this.tileset, 0, 0);
+    this.sol = this.map.createDynamicLayer('Sol', this.tileset, 0, 0);
+    this.paralax1 = this.map.createDynamicLayer('Paralax1', this.tileset, 0, 0);
+    this.paralax2 = this.map.createDynamicLayer('Paralax2', this.tileset, 0, 0);
     this.objets = this.map.createDynamicLayer('Objets', this.tileset, 0, 0);
+
     
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude');
