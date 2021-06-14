@@ -8,7 +8,7 @@ preload ()
     this.load.image('fond', 'assets/fond.png');
     this.load.image('perso_test', 'assets_test/perso_test.png');
     this.load.image('sol', 'assets_test/bon_sol.png');
-    this.load.image('ennemi', 'assets_test/ennemi_test.png');
+    this.load.image('ennemi', 'assets/ennemi_sbire_test.png');
     this.load.image('barre_de_vie_3hp', 'assets/barre_de_vie_3hp.png');
     this.load.image('barre_de_vie_2hp', 'assets/barre_de_vie_2hp.png');
     this.load.image('barre_de_vie_1hp', 'assets/barre_de_vie_1hp.png');
