@@ -38,10 +38,11 @@ create ()
     this.map = this.make.tilemap({ key: 'map_jeu' });
     this.tileset = this.map.addTilesetImage('Tileset_Gold_mine', 'map');
     this.fond = this.map.createStaticLayer('Fond', this.tileset, 0, 0);
-    this.sol = this.map.createDynamicLayer('Sol', this.tileset, 0, 0);
-    this.paralax1 = this.map.createDynamicLayer('Paralax1', this.tileset, 0, 0);
-    this.paralax2 = this.map.createDynamicLayer('Paralax2', this.tileset, 0, 0);
+    this.paralax3 = this.map.createDynamicLayer('Paralax3', this.tileset, 0, 0).setScrollFactor(0.1);
+    this.paralax2 = this.map.createDynamicLayer('Paralax2', this.tileset, 0, 0).setScrollFactor(0.3);
+    this.paralax1 = this.map.createDynamicLayer('Paralax1', this.tileset, 0, 0).setScrollFactor(0.5);
     this.objets = this.map.createDynamicLayer('Objets', this.tileset, 0, 0);
+    this.sol = this.map.createDynamicLayer('Sol', this.tileset, 0, 0);
 
     
     //CREATION PLAYER --------------------------------------------------------------------------------
@@ -82,10 +83,13 @@ create ()
     this.physics.add.collider(this.player, this.objets);
     this.objets.setCollisionByProperty({collides:true});
     
+    this.physics.add.collider(this.player, this.sol);
+    this.sol.setCollisionByProperty({collides:true});
+    
     // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
     
     this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
-    //this.physics.add.overlap(this.plateforme, this.hook, this.hookHitPlatforms, null, this);
+    this.physics.add.overlap(this.objets, this.hook, this.hookHitPlatforms, null, this);
     
     // AJOUT CAMERA -----------------------------------------------------------------------------------
     
@@ -140,14 +144,14 @@ update ()
     
     if (this.cursors.left.isDown)
     {
-        this.player.setVelocityX(-300);
+        this.player.setVelocityX(-200);
         this.player.direction = 'left';
         this.player.anims.play('left', true);
     }
     
     else if (this.cursors.right.isDown)
     {
-        this.player.setVelocityX(300);
+        this.player.setVelocityX(200);
         this.player.direction = 'right';
         this.player.anims.play('right', true);
     }
@@ -163,15 +167,15 @@ update ()
         }
     }
     
-    if(this.cursors.up.isDown)
+    if(this.cursors.up.isDown && this.player.body.blocked.down)
     {
-        this.player.setVelocityY(-300);
+        this.player.setVelocityY(-400);
     }
     
     
 
     if (this.cursors.down.isDown){
-        this.player.setVelocityY(300)
+        this.player.setVelocityY(200)
     }
     
     if (vie == 3){
@@ -202,6 +206,7 @@ update ()
     console.log(this.player.x, this.player.y);
     console.log(this.cameras.main.scrollX, this.cameras.main.scrollY);
     
+        if(lasso == true){
       var hook = this.hook.get(this.player.x, this.player.y);
       if (hook) {
         hook.setActive(true);
@@ -225,6 +230,7 @@ update ()
           hook.body.setAllowGravity(false);
           hook.body.velocity.y = this.dY*this.dSpeed;
           hook.body.velocity.x = this.dX*this.dSpeed;
+      }
         }
 } // FIN SHOOT -----------------------------------------------------------------------------------
     
@@ -260,16 +266,16 @@ hookComesBack(hook, player){
 }
 hookHitPlatforms(hook, player){
     
-    this.physics.moveToObject(this.player, this.plateforme, 600);
+    this.physics.moveToObject(this.player, this.objets, 600);
 
     console.log('velocity', this.player.body.velocity.x);
 
-    var colliderPlayer = this.physics.add.overlap(this.player, this.plateforme, function (playerOnBlock)
+    /*var colliderPlayer = this.physics.add.overlap(this.player, this.objets, function (playerOnBlock)
     {
         playerOnBlock.body.stop();
 
         this.physics.world.removeCollider(collider);
-    }, null, this);
+    }, null, this);*/
     
 } // FIN HOOKHITPLATFORMS --------------------------------------------------------------------------------
     
