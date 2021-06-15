@@ -39,12 +39,12 @@ create ()
     this.map = this.make.tilemap({ key: 'map_jeu' });
     this.tileset = this.map.addTilesetImage('Tileset_Gold_mine', 'map');
     this.fond = this.map.createStaticLayer('Fond', this.tileset, 0, 0).setScrollFactor(0.1);
+    this.mortel = this.map.createStaticLayer('Mortel', this.tileset, 0, 0);
     this.paralax3 = this.map.createDynamicLayer('Paralax3', this.tileset, 0, 0).setScrollFactor(0.1);
     this.paralax2 = this.map.createDynamicLayer('Paralax2', this.tileset, 0, 0).setScrollFactor(0.3);
     this.paralax1 = this.map.createDynamicLayer('Paralax1', this.tileset, 0, 0).setScrollFactor(0.5);
     this.objets = this.map.createDynamicLayer('Objets', this.tileset, 0, 0);
     this.sol = this.map.createDynamicLayer('Sol', this.tileset, 0, 0);
-    this.mortel = this.map.createStaticLayer('Mortel', this.tileset, 0, 0);
 
     
     //CREATION PLAYER --------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ create ()
     // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
     
     this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
-    //this.physics.add.overlap(this.objets, this.hook, this.hookHitPlatforms, null, this);
+    this.physics.add.overlap(this.objets, this.hook, this.hookHitPlatforms, null, this);
     
     // AJOUT CAMERA -----------------------------------------------------------------------------------
     
