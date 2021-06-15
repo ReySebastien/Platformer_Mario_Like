@@ -37,7 +37,7 @@ create ()
 
     this.map = this.make.tilemap({ key: 'map_jeu' });
     this.tileset = this.map.addTilesetImage('Tileset_Gold_mine', 'map');
-    this.fond = this.map.createStaticLayer('Fond', this.tileset, 0, 0);
+    this.fond = this.map.createStaticLayer('Fond', this.tileset, 0, 0).setScrollFactor(0.1);
     this.paralax3 = this.map.createDynamicLayer('Paralax3', this.tileset, 0, 0).setScrollFactor(0.1);
     this.paralax2 = this.map.createDynamicLayer('Paralax2', this.tileset, 0, 0).setScrollFactor(0.3);
     this.paralax1 = this.map.createDynamicLayer('Paralax1', this.tileset, 0, 0).setScrollFactor(0.5);
