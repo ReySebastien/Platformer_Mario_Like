@@ -12,6 +12,7 @@ preload ()
     this.load.image('barre_de_vie_3hp', 'assets/barre_de_vie_3hp.png');
     this.load.image('barre_de_vie_2hp', 'assets/barre_de_vie_2hp.png');
     this.load.image('barre_de_vie_1hp', 'assets/barre_de_vie_1hp.png');
+    this.load.image('barre_de_vie_0hp', 'assets/barre_de_vie_0hp.png');
     this.load.image('game_over', 'assets/game_over.png');
     this.load.image('balle', 'assets/balle.png');
     this.load.image('gold_coin', 'assets/gold_coin.png');
@@ -43,6 +44,7 @@ create ()
     this.paralax1 = this.map.createDynamicLayer('Paralax1', this.tileset, 0, 0).setScrollFactor(0.5);
     this.objets = this.map.createDynamicLayer('Objets', this.tileset, 0, 0);
     this.sol = this.map.createDynamicLayer('Sol', this.tileset, 0, 0);
+    this.mortel = this.map.createStaticLayer('Mortel', this.tileset, 0, 0);
 
     
     //CREATION PLAYER --------------------------------------------------------------------------------
@@ -86,10 +88,14 @@ create ()
     this.physics.add.collider(this.player, this.sol);
     this.sol.setCollisionByProperty({collides:true});
     
+    this.physics.add.collider(this.player, this.mortel,this.death,null,this);
+    this.mortel.setCollisionByProperty({mortal:true});
+
+    
     // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
     
     this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
-    this.physics.add.overlap(this.objets, this.hook, this.hookHitPlatforms, null, this);
+    //this.physics.add.overlap(this.objets, this.hook, this.hookHitPlatforms, null, this);
     
     // AJOUT CAMERA -----------------------------------------------------------------------------------
     
@@ -192,6 +198,7 @@ update ()
     }
     
     else if (vie == 0){
+        this.hp.setTexture("barre_de_vie_0hp");
         this.add.image(400, 336, 'game_over').setScrollFactor(0);
     }
     
@@ -249,6 +256,7 @@ hookHitEnnemies(hook, ennemi){
     var colliderEnnemi = this.physics.add.overlap(this.ennemi, this.player, function (ennemiOnBlock)
     {
         ennemiOnBlock.body.stop();
+        this.ennemi.destroy();
     }, null, this);
         
 } // FIN HOOKHITENNEMIES -----------------------------------------------------------------------------
@@ -329,5 +337,9 @@ destroyHook(hook)
         this.physics.body.destroy();
     }
     
-
+death(){
+    vie = 0;
+    this.physics.pause();
+    this.player.setTint('0xff0000');
+}
 } //FIN SCENE ----------------------------------------------------------------------------------------------
