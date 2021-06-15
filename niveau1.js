@@ -52,7 +52,7 @@ create ()
     this.player.direction = 'down';
     this.player.setCollideWorldBounds(true);
     //CREATION ENNEMI -------------------------------------------------------------------------------
-    this.ennemi = this.physics.add.image(1200, 300, 'ennemi');
+    this.ennemi = this.physics.add.image(400, 300, 'ennemi');
     this.ennemi.setCollideWorldBounds(true);
     
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
@@ -78,6 +78,8 @@ create ()
     this.physics.add.collider(this.goldCoin, this.sol);
     this.physics.add.collider(this.goldCoin, this.plateforme);
     this.physics.add.collider(this.goldCoin, this.plateforme);
+    this.physics.add.collider(this.ennemi, this.objets);
+    this.physics.add.collider(this.goldCoin, this.objets);
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
@@ -305,6 +307,7 @@ hitEnnemi(player, ennemi){
         this.physics.pause();
         this.gameOver = true;
     }
+    
  } // FIN HITENNEMI --------------------------------------------------------------------------------------------
 
 tirer(player) {
@@ -322,7 +325,7 @@ tirer(player) {
 
 hit (bullet, ennemi) {
         bullet.destroy();
-        //this.goldCoin.create(this.ennemi.x, this.ennemi.y, 'gold_coin');
+        this.goldCoin.create(this.ennemi.x, this.ennemi.y, 'gold_coin');
         this.ennemi.destroy();
 } // FIN HIT ------------------------------------------------------------------------------------------------------
 
