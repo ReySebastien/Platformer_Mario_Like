@@ -16,6 +16,7 @@ preload ()
     this.load.image('game_over', 'assets/game_over.png');
     this.load.image('balle', 'assets/balle.png');
     this.load.image('gold_coin', 'assets/gold_coin.png');
+    this.load.image('key', 'assets/key.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
     this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
     this.load.image('map', 'assets/tileset.png');
@@ -325,7 +326,7 @@ tirer(player) {
 
 hit (bullet, ennemi) {
         bullet.destroy();
-        this.goldCoin.create(this.ennemi.x, this.ennemi.y, 'gold_coin');
+        this.goldCoin.create(this.ennemi.x, this.ennemi.y, 'key');
         this.ennemi.destroy();
 } // FIN HIT ------------------------------------------------------------------------------------------------------
 
