@@ -17,6 +17,7 @@ preload ()
     this.load.image('balle', 'assets/balle.png');
     this.load.image('gold_coin', 'assets/gold_coin.png');
     this.load.image('key', 'assets/key.png');
+    this.load.image('lasso', 'assets/lasso.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
     this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
     this.load.image('map', 'assets/tileset.png');
@@ -38,6 +39,9 @@ create ()
     //this.plateforme.create(1800, 0, 'sol');
 
     this.map = this.make.tilemap({ key: 'map_jeu' });
+    /*    width: 5000,
+    height: 576,*/
+    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     this.tileset = this.map.addTilesetImage('Tileset_Gold_mine', 'map');
     this.fond = this.map.createStaticLayer('Fond', this.tileset, 0, 0).setScrollFactor(0.1);
     this.mortel = this.map.createStaticLayer('Mortel', this.tileset, 0, 0);
@@ -45,16 +49,28 @@ create ()
     this.paralax2 = this.map.createDynamicLayer('Paralax2', this.tileset, 0, 0).setScrollFactor(0.3);
     this.paralax1 = this.map.createDynamicLayer('Paralax1', this.tileset, 0, 0).setScrollFactor(0.5);
     this.objets = this.map.createDynamicLayer('Objets', this.tileset, 0, 0);
+    const platformsObjects = this.map.getObjectLayer('ObjetsA').objects;
     this.sol = this.map.createDynamicLayer('Sol', this.tileset, 0, 0);
 
+    
+
+
+    this.platforms = this.physics.add.staticGroup({
+        allowGravity: false,
+        immovable: true,
+    });
+
+    platformsObjects.forEach(platformsObject => {const platform = this.platforms.create(platformsObject.x+16, platformsObject.y-16, platformsObject.type).setAlpha(0)});
     
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude');
     this.player.direction = 'down';
     this.player.setCollideWorldBounds(true);
     //CREATION ENNEMI -------------------------------------------------------------------------------
-    this.ennemi = this.physics.add.image(400, 300, 'ennemi');
-    this.ennemi.setCollideWorldBounds(true);
+    this.ennemi = this.physics.add.group();
+    this.ennemi1 = this.ennemi.create(400,300, 'ennemi');
+    this.ennemi2 = this.ennemi.create(600, 300, 'ennemi');
+    //this.ennemi.setCollideWorldBounds(true);
     
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -69,7 +85,7 @@ create ()
     this.goldCoin = this.physics.add.group();
     
     // CREATION DU LASSO ---------------------------------------------------------------------------------
-    this.hook = this.physics.add.group({});
+    //this.hook = this.physics.add.group({});
     
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
@@ -83,7 +99,6 @@ create ()
     this.physics.add.collider(this.goldCoin, this.objets);
     this.physics.add.collider(this.key, this.objets);
     this.physics.add.collider(this.key, this.sol);
-
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
@@ -99,14 +114,12 @@ create ()
 
     
     // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
-    
-    this.physics.add.overlap(this.ennemi, this.hook, this.hookHitEnnemies, null, this);
-    this.physics.add.overlap(this.objets, this.hook, this.hookHitPlatforms, null, this);
+        this.physics.add.overlap(this.player, this.key, this.getCle, null, this);
     
     // AJOUT CAMERA -----------------------------------------------------------------------------------
     
-    this.cameras.main.setBounds(0, 0, 5000, 576)
-    this.cameras.main.setSize(800, 576);
+    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
+    this.cameras.main.setSize(config.width, config.height);
     this.cameras.main.startFollow(this.player);
     
     // AJOUT ANIMATION DU JOUEUR -----------------------------------------------------------------------
@@ -211,6 +224,23 @@ update ()
     if (Phaser.Input.Keyboard.JustDown(this.boutonFeu)) {
             this.tirer(this.player);
         }
+    
+    if(this.hook !== undefined){
+             this.rope.setPosition((this.hook.x+this.player.x)/2, (this.hook.y+this.player.y)/2);
+            if(this.hook.y < this.player.y){
+               this.rope.rotation = -Math.acos((this.hook.x-this.player.x)/(Math.sqrt(((this.hook.x-this.player.x)**2)+((this.hook.y-this.player.y)**2))));
+            }
+            else if(this.hook.y > this.player.y){
+                this.rope.rotation = Math.acos((this.hook.x-this.player.x)/(Math.sqrt(((this.hook.x-this.player.x)**2)+((this.hook.y-this.player.y)**2))));
+            }
+        this.rope.scaleX = Phaser.Math.Distance.BetweenPoints(this.player, this.hook)/26;
+        
+        if (this.hook.hookedSomething == true){
+            this.physics.moveToObject(this.player, this.hook, 600);
+            this.stop(this.hook);
+
+        }
+    }
 
 } // FIN UPDATE ------------------------------------------------------------------------------
 
@@ -220,10 +250,26 @@ update ()
     console.log(this.cameras.main.scrollX, this.cameras.main.scrollY);
     
         if(lasso == true){
-      var hook = this.hook.get(this.player.x, this.player.y);
-      if (hook) {
-        hook.setActive(true);
-        hook.setVisible(true);
+        this.hook = this.physics.add.image(this.player.x, this.player.y, 'a');
+        this.hook.hookedSomething = false;
+        this.rope = this.add.image(0, 0, 'a');
+        this.physics.add.collider(this.platforms, this.hook, this.hookHitPlatforms, null, this);
+        this.physics.add.collider(this.hook, this.ennemi, this.hookHitEnnemies, null, this);
+        this.physics.add.collider(this.player, this.hook, this.playerTouchHook, null, this);
+        this.time.addEvent({
+            delay: 1000,
+            callback: ()=>{
+                if(this.hook.hookedSomething == false){
+                this.rope.destroy();
+                this.hook.destroy();}
+            }
+        });
+
+
+      //var hook = this.hook.get(this.player.x, this.player.y);
+      if (true) {
+        this.hook.setActive(true);
+        this.hook.setVisible(true);
           //Calcul de coordonnées du vecteur entre les deux projectiles
           this.dY = (pointer.y - this.player.y);
           
@@ -240,9 +286,10 @@ update ()
           //Distance à ajouter pour atteindre la constante vitesse.
           this.dSpeed = (1300/(Math.abs(this.dY)+Math.abs(this.dX))); 
 
-          hook.body.setAllowGravity(false);
-          hook.body.velocity.y = this.dY*this.dSpeed;
-          hook.body.velocity.x = this.dX*this.dSpeed;
+          this.hook.body.setAllowGravity(false);
+          this.hook.body.velocity.y = this.dY*this.dSpeed;
+          this.hook.body.velocity.x = this.dX*this.dSpeed;
+
       }
         }
 } // FIN SHOOT -----------------------------------------------------------------------------------
@@ -250,38 +297,26 @@ update ()
     
 hookHitEnnemies(hook, ennemi){
     
-    //this.stop();
-    //this.hookComesBack();
-
-    this.physics.moveToObject(this.ennemi, this.player, 600);
-
-    console.log('velocity', this.ennemi.body.velocity.x);
-
-    //this.destroyHook();
+    //hook.destroy();
+    console.log(hook)
+    this.physics.moveToObject(ennemi, this.player, 600);
+    //this.physics.movetoObject(hook, this.player, 600);
+    console.log(this.player) 
     
-    var colliderEnnemi = this.physics.add.overlap(this.ennemi, this.player, function (ennemiOnBlock)
+    //this.hookComesBack(hook, this.player);
+
+    var colliderEnnemi = this.physics.add.overlap(ennemi, this.player, function (ennemiOnBlock)
     {
         ennemiOnBlock.body.stop();
-        this.ennemi.destroy();
+        ennemi.destroy();
+        this.rope.destroy();
+        this.hook.destroy();
     }, null, this);
-        
 } // FIN HOOKHITENNEMIES -----------------------------------------------------------------------------
     
-hookComesBack(hook, player){
+hookHitPlatforms(platforms, hook){
     
-    this.physics.movetoObject(this.hook, this.player, 600);
-    
-    var colliderHook = this.physics.add.overlap(this.hook, this.player, function(hookOnBlock){
-        hookOnBlock.body.stop();
-        
-        this.physics.world.removeCollider(collider);
-    },null,this);
-    
-}
-hookHitPlatforms(hook, player){
-    
-    this.physics.moveToObject(this.player, this.objets, 600);
-
+    this.hook.hookedSomething = true;
     console.log('velocity', this.player.body.velocity.x);
 
     /*var colliderPlayer = this.physics.add.overlap(this.player, this.objets, function (playerOnBlock)
@@ -293,6 +328,11 @@ hookHitPlatforms(hook, player){
     
 } // FIN HOOKHITPLATFORMS --------------------------------------------------------------------------------
     
+playerTouchHook(){
+    this.hook.hookedSomething = false
+    this.hook.destroy();
+    this.rope.destroy();
+}
 hitEnnemi(player, ennemi){
      
     if (!invulnerabilite){
@@ -329,19 +369,17 @@ tirer(player) {
 
 hit (bullet, ennemi) {
         bullet.destroy();
-        this.key.create(this.ennemi.x, this.ennemi.y, 'key');
-        this.ennemi.destroy();
+        ennemi.destroy();
+    if(!this.key1){
+        this.key1 =this.key.create(this.ennemi1.x, this.ennemi1.y, 'key');
+    }
+
 } // FIN HIT ------------------------------------------------------------------------------------------------------
 
 stop (hook)        
     {
-        this.hook.setVelocityX(0);
-        this.hook.setVelocityY(0);
-    }
-    
-destroyHook(hook)
-    {
-        this.physics.body.destroy();
+        hook.setVelocityX(0);
+        hook.setVelocityY(0);
     }
     
 death(){
@@ -349,4 +387,25 @@ death(){
     this.physics.pause();
     this.player.setTint('0xff0000');
 }
+    
+getCle(key){
+    
+    this.key1.destroy();
+    this.objets.replaceByIndex(4060, 4062);
+    this.objets.replaceByIndex(4059, 4061);
+    this.objets.replaceByIndex(4215, 4217);
+    this.objets.replaceByIndex(4216, 4218);
+    this.lasso1 = this.physics.add.image(550, 500, 'lasso');
+    this.physics.add.collider(this.lasso1, this.objets);
+    this.physics.add.collider(this.lasso1, this.sol);
+    this.physics.add.overlap(this.player, this.lasso1, this.getLasso, null, this);
+
+
+}
+    
+getLasso(lasso1){
+    this.lasso1.destroy();
+    lasso = true;
+}
+    
 } //FIN SCENE ----------------------------------------------------------------------------------------------
