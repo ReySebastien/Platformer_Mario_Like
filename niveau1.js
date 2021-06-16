@@ -65,7 +65,7 @@ create ()
     
     // AJOUT DES BALLES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
-
+    this.key = this.physics.add.group();
     this.goldCoin = this.physics.add.group();
     
     // CREATION DU LASSO ---------------------------------------------------------------------------------
@@ -81,6 +81,9 @@ create ()
     this.physics.add.collider(this.goldCoin, this.plateforme);
     this.physics.add.collider(this.ennemi, this.objets);
     this.physics.add.collider(this.goldCoin, this.objets);
+    this.physics.add.collider(this.key, this.objets);
+    this.physics.add.collider(this.key, this.sol);
+
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
@@ -326,7 +329,7 @@ tirer(player) {
 
 hit (bullet, ennemi) {
         bullet.destroy();
-        this.goldCoin.create(this.ennemi.x, this.ennemi.y, 'key');
+        this.key.create(this.ennemi.x, this.ennemi.y, 'key');
         this.ennemi.destroy();
 } // FIN HIT ------------------------------------------------------------------------------------------------------
 
