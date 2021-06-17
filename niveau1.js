@@ -18,6 +18,8 @@ preload ()
     this.load.image('gold_coin', 'assets/gold_coin.png');
     this.load.image('key', 'assets/key.png');
     this.load.image('lasso', 'assets/lasso.png');
+    this.load.image('corde', 'assets/corde.png');
+    this.load.image('lasso_corde', 'assets/lasso_corde.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
     this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
     this.load.image('map', 'assets/tileset.png');
@@ -69,7 +71,6 @@ create ()
     //CREATION ENNEMI -------------------------------------------------------------------------------
     this.ennemi = this.physics.add.group();
     this.ennemi1 = this.ennemi.create(400,300, 'ennemi');
-    this.ennemi2 = this.ennemi.create(600, 300, 'ennemi');
     //this.ennemi.setCollideWorldBounds(true);
     
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
@@ -233,7 +234,7 @@ update ()
             else if(this.hook.y > this.player.y){
                 this.rope.rotation = Math.acos((this.hook.x-this.player.x)/(Math.sqrt(((this.hook.x-this.player.x)**2)+((this.hook.y-this.player.y)**2))));
             }
-        this.rope.scaleX = Phaser.Math.Distance.BetweenPoints(this.player, this.hook)/26;
+        this.rope.scaleX = Phaser.Math.Distance.BetweenPoints(this.player, this.hook)/100;
         
         if (this.hook.hookedSomething == true){
             this.physics.moveToObject(this.player, this.hook, 600);
@@ -250,9 +251,9 @@ update ()
     console.log(this.cameras.main.scrollX, this.cameras.main.scrollY);
     
         if(lasso == true){
-        this.hook = this.physics.add.image(this.player.x, this.player.y, 'a');
+        this.hook = this.physics.add.image(this.player.x, this.player.y, 'lasso_corde');
         this.hook.hookedSomething = false;
-        this.rope = this.add.image(0, 0, 'a');
+        this.rope = this.add.image(0, 0, 'corde');
         this.physics.add.collider(this.platforms, this.hook, this.hookHitPlatforms, null, this);
         this.physics.add.collider(this.hook, this.ennemi, this.hookHitEnnemies, null, this);
         this.physics.add.collider(this.player, this.hook, this.playerTouchHook, null, this);
