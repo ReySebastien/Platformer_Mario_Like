@@ -161,30 +161,20 @@ create ()
       frameRate: 10,
     });
     
-    this.ennemi2.anims.play('sbire_marche');
+    //this.ennemi2.anims.play('sbire_marche');
     
-    var test = this;
-    var i = 0;
-    
-    this.ennemi.children.iterate(function (child) {
-      test.tweens.add({
-          targets: child,
-          x: child.x-400,
-          ease: 'Linear',
-          duration: 1200,
-          yoyo: true,
-          repeat: -1,
-          flipX : true
-      });
-
-      i++;
-
-      if (i == test.ennemi.length)
-      {
-          i = 0;
-      }
-
-  })
+        var tween = this.tweens.add({
+        targets: this.ennemi2,
+        x: 1000,
+        duration: 2500,
+        yoyo: true,
+        repeat: -1,
+        flipX: true,
+        onStart: function () { console.log('onStart'); console.log(arguments); },
+        onComplete: function () { console.log('onComplete'); console.log(arguments); },
+        onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+        onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+    });
 
     //AJOUT DE LA FONCTION DE TIR SI ON CLIQUE --------------------------------------------------------------
 
