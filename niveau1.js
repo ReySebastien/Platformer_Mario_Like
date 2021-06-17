@@ -34,15 +34,7 @@ create ()
 {
     
     //CREATION DE LA MAP -----------------------------------------------------------------------------
-    //this.add.image(2500, 288, 'fond');
-    //this.sol = this.physics.add.image(960, 400, 'sol');
-    //this.sol.setCollideWorldBounds(true);
-    //this.plateforme = this.physics.add.staticGroup();
-    //this.plateforme.create(1800, 0, 'sol');
-
     this.map = this.make.tilemap({ key: 'map_jeu' });
-    /*    width: 5000,
-    height: 576,*/
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     this.tileset = this.map.addTilesetImage('Tileset_Gold_mine', 'map');
     this.fond = this.map.createStaticLayer('Fond', this.tileset, 0, 0).setScrollFactor(0.1);
