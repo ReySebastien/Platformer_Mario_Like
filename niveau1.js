@@ -21,6 +21,7 @@ preload ()
     this.load.image('corde', 'assets/corde.png');
     this.load.image('lasso_corde', 'assets/lasso_corde.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
+    this.load.spritesheet('sbire', 'assets/sprisheet_sbire.png', {frameWidth: 30, frameHeight: 45});
     this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
     this.load.image('map', 'assets/tileset.png');
 
@@ -151,6 +152,40 @@ create ()
             frames: [{key: 'dude', frame : 7}],
     })
     
+    
+    // AJOUT ANIMATION SBIRES
+    
+    this.anims.create({
+      key: "sbire_marche",
+      frames: this.anims.generateFrameNumbers("sbire", { start: 0, end: 2 }),
+      frameRate: 10,
+    });
+    
+    this.ennemi2.anims.play('sbire_marche');
+    
+    var test = this;
+    var i = 0;
+    
+    this.ennemi.children.iterate(function (child) {
+      test.tweens.add({
+          targets: child,
+          x: child.x-400,
+          ease: 'Linear',
+          duration: 1200,
+          yoyo: true,
+          repeat: -1,
+          flipX : true
+      });
+
+      i++;
+
+      if (i == test.ennemi.length)
+      {
+          i = 0;
+      }
+
+  })
+
     //AJOUT DE LA FONCTION DE TIR SI ON CLIQUE --------------------------------------------------------------
 
     this.input.on('pointerdown', this.shoot, this);
