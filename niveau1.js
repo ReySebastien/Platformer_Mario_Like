@@ -63,6 +63,8 @@ create ()
     //CREATION ENNEMI -------------------------------------------------------------------------------
     this.ennemi = this.physics.add.group();
     this.ennemi1 = this.ennemi.create(400,300, 'ennemi');
+    this.ennemi2 = this.ennemi.create(800,300, 'ennemi');
+
     //this.ennemi.setCollideWorldBounds(true);
     
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
