@@ -3,6 +3,10 @@ class Mine extends Phaser.Scene{
         super("Mine");
     }
     
+create(){
+    
+    this.add.image(400, 300, 'menu');
+}
     
     
     

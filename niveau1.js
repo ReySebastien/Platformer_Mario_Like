@@ -26,6 +26,9 @@ create ()
 
     platformsObjects.forEach(platformsObject => {const platform = this.platforms.create(platformsObject.x+16, platformsObject.y-16, platformsObject.type).setAlpha(0)});
     
+    this.bordure = this.physics.add.image(4890, 400, 'bordure');
+    this.bordure.body.setAllowGravity(false);
+    
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude');
     this.player.direction = 'down';
@@ -83,6 +86,7 @@ create ()
     this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.player, this.cactus, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
+    this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
 
     
     this.physics.add.collider(this.player, this.objets);
@@ -369,6 +373,12 @@ getCle(key){
 getLasso(lasso1){
     this.lasso1.destroy();
     lasso = true;
+}
+    
+hitBordure(){
+        
+    this.scene.start("Mine")
+    vie = 3;
 }
     
 } //FIN SCENE ----------------------------------------------------------------------------------------------

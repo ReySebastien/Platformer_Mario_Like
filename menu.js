@@ -25,6 +25,7 @@ class Menu extends Phaser.Scene{
         this.load.image('lasso_corde', 'assets/lasso_corde.png');
         this.load.image('cactus', 'assets/cactusV2.png');
         this.load.image('lasso_vide', 'assets/lasso_vide.png');
+        this.load.image('bordure', 'assets/bordure.png');
         this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
         this.load.spritesheet('sbire', 'assets/spritesheet_sbire.png', {frameWidth: 30, frameHeight: 45});
         this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
