@@ -76,6 +76,7 @@ create ()
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
+    this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
     
     this.physics.add.collider(this.player, this.objets);
     this.objets.setCollisionByProperty({collides:true});
