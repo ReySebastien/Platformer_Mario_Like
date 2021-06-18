@@ -46,10 +46,7 @@ create ()
     this.objets = this.map.createDynamicLayer('Objets', this.tileset, 0, 0);
     const platformsObjects = this.map.getObjectLayer('ObjetsA').objects;
     this.sol = this.map.createDynamicLayer('Sol', this.tileset, 0, 0);
-
     
-
-
     this.platforms = this.physics.add.staticGroup({
         allowGravity: false,
         immovable: true,
