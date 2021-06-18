@@ -11,7 +11,29 @@ class SbireEnnemi extends Phaser.GameObjects.Sprite{
     
     ia(player){ 
     
+        if(player.body.x < this.body.x){
+            this.flipX = false;
+        }
+
+        else if(player.body.x > this.body.x){
+            this.flipX = true;
+        }
+
+        if(player.body.x < this.body.x && Math.abs(player.body.x-this.body.x) < 300){
+            this.body.setAccelerationX(-150);
+        }
+
+        else if(player.body.x > this.body.x && Math.abs(player.body.x-this.body.x) < 300){
+            this.body.setAccelerationX(150);
+        }
+
+        if(this.body.velocity.x > 100){
+            this.body.velocity.x = 100;
+        }
+
+        else if(this.body.velocity.x < -100){
+            this.body.velocity.x = -100;
+        }
     
-    
-    } 
+    }
 }
