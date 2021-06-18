@@ -69,7 +69,12 @@ create ()
     //this.ennemi.setCollideWorldBounds(true);
     
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP,
+            's': Phaser.Input.Keyboard.KeyCodes.S, 
+            'q': Phaser.Input.Keyboard.KeyCodes.Q,
+            'd': Phaser.Input.Keyboard.KeyCodes.D,
+            'z' : Phaser.Input.Keyboard.KeyCodes.Z,
+        });
     this.boutonFeu = this.input.keyboard.addKey('space');
 
     //AJOUT INTERFACE JOUEUR --------------------------------------------------------------------------
@@ -187,14 +192,14 @@ create ()
 update ()
 {
     
-    if (this.cursors.left.isDown)
+    if (this.cursors.q.isDown)
     {
         this.player.setVelocityX(-200);
         this.player.direction = 'left';
         this.player.anims.play('left', true);
     }
     
-    else if (this.cursors.right.isDown)
+    else if (this.cursors.d.isDown)
     {
         this.player.setVelocityX(200);
         this.player.direction = 'right';
@@ -212,14 +217,14 @@ update ()
         }
     }
     
-    if(this.cursors.up.isDown && this.player.body.blocked.down)
+    if(this.cursors.z.isDown && this.player.body.blocked.down)
     {
         this.player.setVelocityY(-400);
     }
     
     
 
-    if (this.cursors.down.isDown){
+    if (this.cursors.s.isDown){
         this.player.setVelocityY(200)
     }
     
