@@ -69,11 +69,11 @@ create ()
     //this.ennemi.setCollideWorldBounds(true);
     
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
-    this.cursors = this.input.keyboard.addKeys({ 'up': Phaser.Input.Keyboard.KeyCodes.UP,
+    this.cursors = this.input.keyboard.addKeys({
             's': Phaser.Input.Keyboard.KeyCodes.S, 
             'q': Phaser.Input.Keyboard.KeyCodes.Q,
             'd': Phaser.Input.Keyboard.KeyCodes.D,
-            'z' : Phaser.Input.Keyboard.KeyCodes.Z,
+            'z': Phaser.Input.Keyboard.KeyCodes.Z,
         });
     this.boutonFeu = this.input.keyboard.addKey('space');
 
@@ -274,7 +274,8 @@ update ()
     console.log(this.player.x, this.player.y);
     console.log(this.cameras.main.scrollX, this.cameras.main.scrollY);
     
-        if(lasso == true){
+        if(lasso == true && nombreLasso == 1){
+        nombreLasso -= 1
         this.hook = this.physics.add.image(this.player.x, this.player.y, 'lasso_corde');
         this.hook.hookedSomething = false;
         this.rope = this.add.image(0, 0, 'corde');
@@ -286,7 +287,8 @@ update ()
             callback: ()=>{
                 if(this.hook.hookedSomething == false){
                 this.rope.destroy();
-                this.hook.destroy();}
+                this.hook.destroy();
+                nombreLasso = 1}
             }
         });
 
@@ -336,6 +338,7 @@ hookHitEnnemies(hook, ennemi){
         ennemi.destroy();
         this.rope.destroy();
         this.hook.destroy();
+        nombreLasso = 1
     }, null, this);
 } // FIN HOOKHITENNEMIES -----------------------------------------------------------------------------
     
@@ -357,6 +360,7 @@ playerTouchHook(){
     this.hook.hookedSomething = false
     this.hook.destroy();
     this.rope.destroy();
+    nombreLasso = 1;
 }
 hitEnnemi(player, ennemi){
      
