@@ -34,6 +34,8 @@ create ()
     this.ennemi = this.physics.add.group();
     this.ennemi1 = new SbireEnnemi(this, 400, 300, 'ennemi');
     new SbireEnnemi(this, 800,300, 'ennemi');
+    this.vautour1 = new VautourEnnemi(this, 4000, 100, 'vautour').body.setAllowGravity(false);
+    this.vautour2 = new VautourEnnemi(this, 4200, 100, 'vautour').body.setAllowGravity(false);
 
 
     //this.ennemi.setCollideWorldBounds(true);
