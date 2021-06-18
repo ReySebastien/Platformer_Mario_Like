@@ -36,7 +36,11 @@ create ()
     new SbireEnnemi(this, 800,300, 'ennemi');
     this.vautour1 = new VautourEnnemi(this, 4000, 100, 'vautour').body.setAllowGravity(false);
     this.vautour2 = new VautourEnnemi(this, 4200, 100, 'vautour').body.setAllowGravity(false);
-
+    this.cactus = this.physics.add.group();
+    this.cactus1 = this.cactus.create(1200, 300, 'cactus');
+    this.cactus2 = this.cactus.create(1500, 300, 'cactus');
+    this.cactus3 = this.cactus.create(3000, 300, 'cactus');
+    this.cactus4 = this.cactus.create(3400, 300, 'cactus');
 
     //this.ennemi.setCollideWorldBounds(true);
     
@@ -73,10 +77,13 @@ create ()
     this.physics.add.collider(this.goldCoin, this.objets);
     this.physics.add.collider(this.key, this.objets);
     this.physics.add.collider(this.key, this.sol);
+    this.physics.add.collider(this.cactus, this.sol);
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
-    this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
     this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
+    this.physics.add.overlap(this.player, this.cactus, this.hitEnnemi, null, this);
+    this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
+
     
     this.physics.add.collider(this.player, this.objets);
     this.objets.setCollisionByProperty({collides:true});
