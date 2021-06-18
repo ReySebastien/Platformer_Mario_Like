@@ -9,6 +9,7 @@ preload ()
     this.load.image('perso_test', 'assets_test/perso_test.png');
     this.load.image('sol', 'assets_test/bon_sol.png');
     this.load.image('ennemi', 'assets/ennemi_sbire_test.png');
+    this.load.image('vautour', 'assets/vautour.png');
     this.load.image('barre_de_vie_3hp', 'assets/barre_de_vie_3hp.png');
     this.load.image('barre_de_vie_2hp', 'assets/barre_de_vie_2hp.png');
     this.load.image('barre_de_vie_1hp', 'assets/barre_de_vie_1hp.png');
@@ -21,7 +22,7 @@ preload ()
     this.load.image('corde', 'assets/corde.png');
     this.load.image('lasso_corde', 'assets/lasso_corde.png');
     this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
-    this.load.spritesheet('sbire', 'assets/sprisheet_sbire.png', {frameWidth: 30, frameHeight: 45});
+    this.load.spritesheet('sbire', 'assets/spritesheet_sbire.png', {frameWidth: 30, frameHeight: 45});
     this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
     this.load.image('map', 'assets/tileset.png');
 
@@ -60,8 +61,9 @@ create ()
     this.player.setCollideWorldBounds(true);
     //CREATION ENNEMI -------------------------------------------------------------------------------
     this.ennemi = this.physics.add.group();
-    this.ennemi1 = this.ennemi.create(400,300, 'ennemi');
-    this.ennemi2 = this.ennemi.create(800,300, 'ennemi');
+    this.ennemi1 = new SbireEnnemi(this, 400, 300, 'ennemi');
+    new SbireEnnemi(this, 800,300, 'ennemi');
+
 
     //this.ennemi.setCollideWorldBounds(true);
     
@@ -79,6 +81,7 @@ create ()
     
     // AJOUT DES BALLES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
+    this.projectiles = this.physics.add.group();
     this.key = this.physics.add.group();
     this.goldCoin = this.physics.add.group();
     
@@ -165,18 +168,7 @@ create ()
     
     //this.ennemi2.anims.play('sbire_marche');
     
-        var tween = this.tweens.add({
-        targets: this.ennemi2,
-        x: 1000,
-        duration: 2500,
-        yoyo: true,
-        repeat: -1,
-        flipX: true,
-        onStart: function () { console.log('onStart'); console.log(arguments); },
-        onComplete: function () { console.log('onComplete'); console.log(arguments); },
-        onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-        onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
-    });
+ 
 
     //AJOUT DE LA FONCTION DE TIR SI ON CLIQUE --------------------------------------------------------------
 
@@ -264,6 +256,22 @@ update ()
         }
     }
 
+    for(var i = 0; i < this.ennemi.getChildren().length; i++){
+            let ennemis = this.ennemi.getChildren()[0];
+            if(ennemis.ia(this.player)){
+                if(ennemis.direction == 'right') {
+                    
+                this.projectiles.create(ennemis.x, ennemis.y, 'balle').setVelocityX(300).body.setAllowGravity(false);
+                }
+                
+                else{
+                this.projectiles.create(ennemis.x, ennemis.y, 'balle').setVelocityX(-300).body.setAllowGravity(false);
+
+                }
+            }
+        }
+    
+
 } // FIN UPDATE ------------------------------------------------------------------------------
 
     shoot (pointer){    
@@ -289,8 +297,6 @@ update ()
             }
         });
 
-
-      //var hook = this.hook.get(this.player.x, this.player.y);
       if (true) {
         this.hook.setActive(true);
         this.hook.setVisible(true);
@@ -321,13 +327,10 @@ update ()
     
 hookHitEnnemies(hook, ennemi){
     
-    //hook.destroy();
     console.log(hook)
+    ennemi.toucher = true;
     this.physics.moveToObject(ennemi, this.player, 600);
-    //this.physics.movetoObject(hook, this.player, 600);
     console.log(this.player) 
-    
-    //this.hookComesBack(hook, this.player);
 
     var colliderEnnemi = this.physics.add.overlap(ennemi, this.player, function (ennemiOnBlock)
     {
@@ -337,19 +340,14 @@ hookHitEnnemies(hook, ennemi){
         this.hook.destroy();
         nombreLasso = 1
     }, null, this);
+    
+    
 } // FIN HOOKHITENNEMIES -----------------------------------------------------------------------------
     
 hookHitPlatforms(platforms, hook){
     
     this.hook.hookedSomething = true;
     console.log('velocity', this.player.body.velocity.x);
-
-    /*var colliderPlayer = this.physics.add.overlap(this.player, this.objets, function (playerOnBlock)
-    {
-        playerOnBlock.body.stop();
-
-        this.physics.world.removeCollider(collider);
-    }, null, this);*/
     
 } // FIN HOOKHITPLATFORMS --------------------------------------------------------------------------------
     
