@@ -10,9 +10,10 @@ class SbireEnnemi extends Phaser.GameObjects.Sprite{
         this.timer = 0;
         this.toucher = false;
         
+        this.anims.play('sbire_marche', true);
         scene.add.existing(this);
         scene.ennemi.add(this);
-        this.anims.play('sbire_marche', true);
+
 
     }
     
