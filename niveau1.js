@@ -30,7 +30,7 @@ create ()
     this.bordure.body.setAllowGravity(false);
     
     //CREATION PLAYER --------------------------------------------------------------------------------
-    this.player = this.physics.add.sprite(4800, 300, 'dude');//(this.positionX, this.positionY, 'dude');
+    this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude');
     this.player.direction = 'down';
     this.player.setCollideWorldBounds(true);
     //CREATION ENNEMI -------------------------------------------------------------------------------
