@@ -54,13 +54,13 @@ class Menu extends Phaser.Scene{
     this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('dude', { start: 1, end: 3 }),
-            frameRate: 10,
+            frameRate: 8,
         });
 
     this.anims.create({
             key: 'right',
             frames: this.anims.generateFrameNumbers('dude', { start: 4, end: 6 }),
-            frameRate: 10,
+            frameRate: 8,
         });
 
     this.anims.create({
