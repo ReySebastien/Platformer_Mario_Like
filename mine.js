@@ -23,8 +23,8 @@ create(){
     platformsObjects.forEach(platformsObject => {const platform = this.platforms.create(platformsObject.x+16, platformsObject.y-16, platformsObject.type).setAlpha(0)});
     
     //CREATION PLAYER --------------------------------------------------------------------------------
-    this.player = this.physics.add.sprite(this.positionX, this.positionY, 'dude');
-    this.player.direction = 'down';
+    this.player = this.physics.add.sprite(150, 500, 'dude');
+    this.player.direction = 'right';
     this.player.setCollideWorldBounds(true);
     lasso = true;
     
