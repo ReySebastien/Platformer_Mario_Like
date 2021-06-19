@@ -113,15 +113,20 @@ update ()
         }
     }
     
-    if(this.cursors.z.isDown && this.player.body.blocked.down)
+    if(this.cursors.z.isDown && saut == 1)
     {
         this.player.setVelocityY(-400);
+        saut--;
     }
     
     
 
     if (this.cursors.s.isDown){
-        this.player.setVelocityY(200)
+        this.player.setVelocityY(400)
+    }
+    
+    if(this.player.body.blocked.down){
+        saut = 1;
     }
     
     if (vie == 3){
