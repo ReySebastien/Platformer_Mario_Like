@@ -185,9 +185,8 @@ update ()
         this.add.image(400, 336, 'game_over').setScrollFactor(0);
     }
     
-    if (Phaser.Input.Keyboard.JustDown(this.boutonFeu) && balles >= 1){
+    if (Phaser.Input.Keyboard.JustDown(this.boutonFeu)) {
             this.tirer(this.player);
-            balles -=1;
         }
     
     if(this.hook !== undefined){
@@ -331,7 +330,7 @@ hitEnnemi(player, ennemi){
     
  } // FIN HITENNEMI --------------------------------------------------------------------------------------------
 
-tirer(player) {
+tirer(player){
     
     if(pistolet == true){
 	    var coefDirX;
