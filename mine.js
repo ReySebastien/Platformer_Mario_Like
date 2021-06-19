@@ -231,4 +231,94 @@ update ()
         }
 } // FIN SHOOT -----------------------------------------------------------------------------------
     
-} // FIN SCENE
+hookHitEnnemies(hook, ennemi){
+    
+    console.log(hook)
+    ennemi.toucher = true;
+
+    this.physics.moveToObject(ennemi, this.player, 600);
+    console.log(this.player) 
+
+    var colliderEnnemi = this.physics.add.overlap(ennemi, this.player, function (ennemiOnBlock)
+    {
+        ennemiOnBlock.body.stop();
+        ennemi.destroy();
+        this.rope.destroy();
+        this.hook.destroy();
+        nombreLasso = 1
+    }, null, this);
+    
+    
+} // FIN HOOKHITENNEMIES -----------------------------------------------------------------------------
+    
+hookHitPlatforms(platforms, hook){
+    
+    this.hook.hookedSomething = true;
+    console.log('velocity', this.player.body.velocity.x);
+    
+} // FIN HOOKHITPLATFORMS --------------------------------------------------------------------------------
+    
+playerTouchHook(){
+    this.hook.hookedSomething = false
+    this.hook.destroy();
+    this.rope.destroy();
+    nombreLasso = 1;
+    
+} // FIN PLAYERTOUCHHOOK ----------------------------------------------------------------------------------
+    
+hitEnnemi(player, ennemi){
+     
+    if (!invulnerabilite){
+        vie -= 1;
+        invulnerabilite = true;
+        
+        if(vie > 0){
+            this.clignotement = this.time.addEvent({ delay : 200, repeat: 9, callback: function(){this.player.visible = !this.player.visible;}, callbackScope: this});
+        }
+        
+        this.tempsInvulnerabilite = this.time.addEvent({ delay : 2000, callback: function(){invulnerabilite = false}, callbackScope: this});
+    }
+     
+     if(vie == 0){
+        this.player.setTint(0xff0000);
+        this.physics.pause();
+        this.gameOver = true;
+    }
+    
+ } // FIN HITENNEMI --------------------------------------------------------------------------------------------
+    
+tirer(player) {
+	    var coefDirX;
+        var coefDirY;
+        if (this.player.direction == 'left') { coefDirX = -1; } else if(this.player.direction == 'right') { coefDirX = 1 } else {coefDirX = 0}
+        if (this.player.direction == 'up') {coefDirY = -1;} else if(this.player.direction == 'down') {coefDirY = 1} else {coefDirY =0}
+        // on crée la balle a coté du joueur
+        var bullet = this.groupeBullets.create(this.player.x + (25 * coefDirX), this.player.y - 4 , 'balle');
+        // parametres physiques de la balle.
+        bullet.setCollideWorldBounds(false);
+        bullet.body.allowGravity =false;
+        bullet.setVelocity(1000 * coefDirX, 1000 * coefDirY); // vitesse en x et en y
+} // FIN TIRER ---------------------------------------------------------------------------------------------------
+    
+hit (bullet, ennemi) {
+        bullet.destroy();
+        ennemi.destroy();
+    if(!this.key1){
+        this.key1 =this.key.create(this.ennemi1.x, this.ennemi1.y, 'key');
+    }
+
+} // FIN HIT ------------------------------------------------------------------------------------------------------
+    
+stop (hook)        
+    {
+        hook.setVelocityX(0);
+        hook.setVelocityY(0);
+    }
+    
+death(){
+    vie = 0;
+    this.physics.pause();
+    this.player.setTint('0xff0000');
+}
+    
+} //FIN SCENE ----------------------------------------------------------------------------------------------

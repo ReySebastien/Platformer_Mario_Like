@@ -299,7 +299,8 @@ playerTouchHook(){
     this.hook.destroy();
     this.rope.destroy();
     nombreLasso = 1;
-}
+} // FIN PLAYERTOUCHHOOK ----------------------------------------------------------------------------------
+
 hitEnnemi(player, ennemi){
      
     if (!invulnerabilite){
