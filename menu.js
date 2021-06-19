@@ -30,6 +30,9 @@ class Menu extends Phaser.Scene{
         this.load.spritesheet('sbire', 'assets/spritesheet_sbire.png', {frameWidth: 30, frameHeight: 45});
         this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
         this.load.image('map', 'assets/tileset.png');
+        this.load.tilemapTiledJSON('map_mine', 'map_mine.json');
+        this.load.image('tileset_mine', 'assets/tileset_mine.png');
+
     } // FIN PRELOAD
         
     // FONCTION DE CREATION D'OBJETS --------------------------------------------------
