@@ -18,6 +18,7 @@ class Menu extends Phaser.Scene{
         this.load.image('game_over', 'assets/game_over.png');
         this.load.image('balle', 'assets/balle.png');
         this.load.image('gold_coin', 'assets/gold_coin.png');
+        this.load.image('gold_coin_inventaire', 'assets/gold_coin_inventaire.png');
         this.load.image('key', 'assets/key.png');
         this.load.image('lasso', 'assets/lasso.png');
         this.load.image('corde', 'assets/corde.png');
@@ -52,7 +53,7 @@ class Menu extends Phaser.Scene{
             this.scene.start('Niveau1', {x : 960, y : 540});
         })
         
-            // AJOUT ANIMATION DU JOUEUR -----------------------------------------------------------------------
+    // AJOUT ANIMATION DU JOUEUR -----------------------------------------------------------------------
     
     this.anims.create({
             key: 'left',

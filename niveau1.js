@@ -32,9 +32,9 @@ create ()
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(20, 500, 'dude');
     //this.player = this.physics.add.sprite(4600, 100, 'dude');
-
     this.player.direction = 'right';
     this.player.setCollideWorldBounds(true);
+    
     //CREATION ENNEMI -------------------------------------------------------------------------------
     this.ennemi = this.physics.add.group();
     this.ennemi1 = new SbireEnnemi(this, 400, 300, 'ennemi');
@@ -63,18 +63,18 @@ create ()
     this.inventaire = this.add.image(730, 250, 'inventaire').setScrollFactor(0);
     this.interface_lasso = this.add.image(730, 180, "lasso_vide").setScrollFactor(0);
     this.revolver = this.add.image(730, 250, "revolver").setScrollFactor(0);
+    this.interface_Gold_Coin = this.add.image(710, 340, "gold_coin_inventaire").setScrollFactor(0);
     this.sceneText = this.add.text(690, 270, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     this.sceneText2 = this.add.text(720, 270, '/30', { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
+    this.sceneText3 = this.add.text(750, 327, argent, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
 
-    // AJOUT DES BALLES -------------------------------------------------------------------------------
+
+    // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
     this.projectiles = this.physics.add.group();
     this.key = this.physics.add.group();
     this.goldCoin = this.physics.add.group();
     this.caisse_munition = this.physics.add.image(4800, 100, 'caisse_balles');
-    
-    // CREATION DU LASSO ---------------------------------------------------------------------------------
-    //this.hook = this.physics.add.group({});
     
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
@@ -98,6 +98,7 @@ create ()
     this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
     this.physics.add.overlap(this.player, this.key, this.getCle, null, this);
     this.physics.add.overlap(this.player, this.caisse_munition, this.getMunitions, null, this);
+    this.physics.add.overlap(this.player, this.goldCoin, this.getGoldCoin, null, this);
     
     this.physics.add.collider(this.player, this.objets);
     this.objets.setCollisionByProperty({collides:true});
@@ -361,23 +362,24 @@ hit (bullet, ennemi) {
     if(!this.key1){
         this.key1 =this.key.create(this.ennemi1.x, this.ennemi1.y, 'key');
     }
+    else{
+        this.goldCoin1 = this.goldCoin.create(ennemi.x, ennemi.y, 'gold_coin').body.setAllowGravity(false);;
+    }
 
 } // FIN HIT ------------------------------------------------------------------------------------------------------
 
-stop (hook)        
-    {
+stop (hook){
         hook.setVelocityX(0);
         hook.setVelocityY(0);
-    }
+} // FIN STOP ----------------------------------------------------------------------------------------------------
     
 death(){
     vie = 0;
     this.physics.pause();
     this.player.setTint('0xff0000');
-}
+} // FIN DEATH -------------------------------------------------------------------------------------------------------
     
 getCle(key){
-    
     this.key1.destroy();
     this.objets.replaceByIndex(4060, 4062);
     this.objets.replaceByIndex(4059, 4061);
@@ -387,26 +389,29 @@ getCle(key){
     this.physics.add.collider(this.lasso1, this.objets);
     this.physics.add.collider(this.lasso1, this.sol);
     this.physics.add.overlap(this.player, this.lasso1, this.getLasso, null, this);
-
-
-}
+} // FIN GETCLE --------------------------------------------------------------------------------------------------------
     
 getLasso(lasso1){
     this.lasso1.destroy();
     lasso = true;
     this.interface_lasso.setTexture('lasso');
+} // FIN GETLASSO -----------------------------------------------------------------------------------------------------
 
-}
+getGoldCoin(){
+    this.goldCoin1.destroy();
+    argent += 1;
+    this.sceneText3.setText(argent);
+} // FIN GETGOLDCOIN ---------------------------------------------------------------------------------------------------
     
-hitBordure(){
-        
+hitBordure(){   
     this.scene.start("Mine")
     vie = 3;
-}
+} // FIN HITBORDURE ------------------------------------------------------------------------------------------------------
+    
 getMunitions(){
     this.caisse_munition.destroy();
     balles = 30;
     this.sceneText.setText(balles);
-
-}
-} //FIN SCENE ----------------------------------------------------------------------------------------------
+} // FIN GETMUNITIONS --------------------------------------------------------------------------------------------------
+    
+} //FIN SCENE
