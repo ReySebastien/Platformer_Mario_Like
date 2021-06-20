@@ -28,28 +28,28 @@ class Boss extends Phaser.GameObjects.Sprite{
             this.direction = 'right';
         }
 
-        if(player.body.x < this.body.x && Math.abs(player.body.x-this.body.x) < 300){
-            this.body.setAccelerationX(-600);
+        if(player.body.x < this.body.x && Math.abs(player.body.x-this.body.x) < 800){
+            this.body.setAccelerationX(-450);
         }
 
-        else if(player.body.x > this.body.x && Math.abs(player.body.x-this.body.x) < 300){
-            this.body.setAccelerationX(600);
+        else if(player.body.x > this.body.x && Math.abs(player.body.x-this.body.x) < 800){
+            this.body.setAccelerationX(450);
         }
         
-        if(this.body.velocity.x > 500){
-            this.body.velocity.x = 500;
+        if(this.body.velocity.x > 450){
+            this.body.velocity.x = 450;
         }
 
-        else if(this.body.velocity.x < -500){
-            this.body.velocity.x = -500;
+        else if(this.body.velocity.x < -450){
+            this.body.velocity.x = -450;
         }
         
-        if(this.body.velocity.y > 500){
-            this.body.velocity.y = 500;
+        if(this.body.velocity.y > 450){
+            this.body.velocity.y = 450;
         }
         
-        else if(this.body.velocity.y < -500){
-            this.body.velocity.y = -500;
+        else if(this.body.velocity.y < -450){
+            this.body.velocity.y = -450;
         }
         if(this.cooldown > 0){
             this.cooldown--;

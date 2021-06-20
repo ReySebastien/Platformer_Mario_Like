@@ -10,12 +10,12 @@ class Menu extends Phaser.Scene{
         this.load.image('perso_test', 'assets_test/perso_test.png');
         this.load.image('sol', 'assets_test/bon_sol.png');
         this.load.image('ennemi', 'assets/ennemi_sbire_test.png');
-        this.load.image('vautour', 'assets/vautour.png');
         this.load.image('barre_de_vie_3hp', 'assets/barre_de_vie_3hp.png');
         this.load.image('barre_de_vie_2hp', 'assets/barre_de_vie_2hp.png');
         this.load.image('barre_de_vie_1hp', 'assets/barre_de_vie_1hp.png');
         this.load.image('barre_de_vie_0hp', 'assets/barre_de_vie_0hp.png');
         this.load.image('game_over', 'assets/game_over.png');
+        this.load.image('victoire', 'assets/victoire.png');
         this.load.image('balle', 'assets/balle.png');
         this.load.image('gold_coin', 'assets/gold_coin.png');
         this.load.image('gold_coin_inventaire', 'assets/gold_coin_inventaire.png');
@@ -28,10 +28,23 @@ class Menu extends Phaser.Scene{
         this.load.image('bordure', 'assets/bordure.png');
         this.load.image('inventaire', 'assets/inventaire.png');
         this.load.image('revolver', 'assets/revolver.png');
+        this.load.image('boss_10hp', 'assets/boss_10hp.png');
+        this.load.image('boss_9hp', 'assets/boss_9hp.png');
+        this.load.image('boss_8hp', 'assets/boss_8hp.png');
+        this.load.image('boss_7hp', 'assets/boss_7hp.png');
+        this.load.image('boss_6hp', 'assets/boss_6hp.png');
+        this.load.image('boss_5hp', 'assets/boss_5hp.png');
+        this.load.image('boss_4hp', 'assets/boss_4hp.png');
+        this.load.image('boss_3hp', 'assets/boss_3hp.png');
+        this.load.image('boss_2hp', 'assets/boss_2hp.png');
+        this.load.image('boss_1hp', 'assets/boss_1hp.png');
+        this.load.image('boss_0hp', 'assets/boss_0hp.png');
         this.load.image('caisse_balles', 'assets/caisse_balles.png');
         this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
         this.load.spritesheet('sbire', 'assets/spritesheet_sbire.png', {frameWidth: 30, frameHeight: 45});
         this.load.spritesheet('boss', 'assets/spritesheet_boss.png', {frameWidth: 30, frameHeight: 45});
+        this.load.spritesheet('vautour', 'assets/spritesheet_vautour.png', {frameWidth: 43 , frameHeight: 30});
+        this.load.spritesheet('sang', 'assets/sang.png', {frameWidth: 56, frameHeight: 45});
         this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
         this.load.image('map', 'assets/tileset.png');
         this.load.tilemapTiledJSON('map_mine', 'map_mine.json');
@@ -104,6 +117,21 @@ class Menu extends Phaser.Scene{
       frames: this.anims.generateFrameNumbers("boss", { start: 1, end: 3 }),
       frameRate: 10,
       repeat: -1,
+    });
+        
+    // AJOUT ANIMATION VAUTOUR --------------------------------------------------------------------------------------
+        
+    this.anims.create({
+      key: "vautour_vole",
+      frames: this.anims.generateFrameNumbers("vautour", { start: 0, end: 7 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+        
+    this.anims.create({
+        key: "sang",
+        frames: this.anims.generateFrameNumbers("sang", { start: 0, end: 3}),
+        frameRate: 10,
     });
         
     } //FIN CREATE

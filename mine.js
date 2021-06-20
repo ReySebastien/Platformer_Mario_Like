@@ -22,7 +22,7 @@ create(){
 
     platformsObjects.forEach(platformsObject => {const platform = this.platforms.create(platformsObject.x+16, platformsObject.y-16, platformsObject.type).setAlpha(0)});
     
-    //CREATION PLAYER --------------------------------------------------------------------------------
+    // CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(150, 500, 'dude');
     this.player.direction = 'right';
     this.player.setCollideWorldBounds(true);
@@ -32,7 +32,7 @@ create(){
     this.boss = this.physics.add.group();
     this.ennemi = this.physics.add.group();
     this.boss1 = new Boss(this, 800, 300, 'boss');
-    //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
+    // AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
     this.cursors = this.input.keyboard.addKeys({
             's': Phaser.Input.Keyboard.KeyCodes.S, 
             'q': Phaser.Input.Keyboard.KeyCodes.Q,
@@ -41,7 +41,7 @@ create(){
         });
     this.boutonFeu = this.input.keyboard.addKey('space');
     
-    //AJOUT INTERFACE JOUEUR --------------------------------------------------------------------------
+    // AJOUT INTERFACE JOUEUR --------------------------------------------------------------------------
     this.hp = this.add.image(600,50, "barre_de_vie_3hp").setScrollFactor(0);
     this.inventaire = this.add.image(730, 250, 'inventaire').setScrollFactor(0);
     this.interface_lasso = this.add.image(730, 180, "lasso_vide").setScrollFactor(0);
@@ -50,7 +50,10 @@ create(){
     this.sceneText = this.add.text(690, 270, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     this.sceneText2 = this.add.text(720, 270, '/30', { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     this.sceneText3 = this.add.text(750, 327, argent, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
-
+    
+    // AJOUT BARRE DE VIE BOSS --------------------------------------------------------------------------------
+    
+    this.hp_boss = this.add.image(50, 230, 'boss_10hp').setScrollFactor(0);
 
     // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
@@ -203,8 +206,48 @@ update ()
                 }
             }
         }
+    if(vie_boss == 9){
+        this.hp_boss.setTexture("boss_9hp");
+    }
     
+    else if(vie_boss == 8){
+        this.hp_boss.setTexture("boss_8hp");
+    }
+    
+    else if(vie_boss == 7){
+        this.hp_boss.setTexture("boss_7hp");
+    }
 
+    else if(vie_boss == 6){
+        this.hp_boss.setTexture("boss_6hp");
+    }
+    
+    else if(vie_boss == 5){
+        this.hp_boss.setTexture("boss_5hp");
+    }
+
+    else if(vie_boss == 4){
+        this.hp_boss.setTexture("boss_4hp");
+    }
+    
+    else if(vie_boss == 3){
+        this.hp_boss.setTexture("boss_3hp");
+    }
+    
+    else if(vie_boss == 2){
+        this.hp_boss.setTexture("boss_2hp");
+    }
+    
+    else if(vie_boss == 1){
+        this.hp_boss.setTexture("boss_1hp");
+    }
+    
+    else if(vie_boss == 0){
+        this.hp_boss.setTexture("boss_0hp");
+        this.add.image(400, 228, "victoire");
+        this.physics.pause();
+    }
+    
 } // FIN UPDATE ------------------------------------------------------------------------------
     
     shoot (pointer){    

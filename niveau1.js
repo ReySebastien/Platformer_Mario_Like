@@ -75,6 +75,7 @@ create ()
     this.key = this.physics.add.group();
     this.goldCoin = this.physics.add.group();
     this.caisse_munition = this.physics.add.image(4800, 100, 'caisse_balles');
+    this.sang = this.physics.add.group();
     
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
@@ -90,6 +91,8 @@ create ()
     this.physics.add.collider(this.key, this.sol);
     this.physics.add.collider(this.cactus, this.sol);
     this.physics.add.collider(this.caisse_munition, this.sol);
+    this.physics.add.collider(this.sang, this.platforms);
+    this.physics.add.collider(this.sang, this.sol);
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
@@ -359,6 +362,9 @@ tirer(player){
 hit (bullet, ennemi) {
         bullet.destroy();
         ennemi.destroy();
+        this.sang1 = this.sang.create(ennemi.x, ennemi.y, 'sang');
+        this.sang1.anims.play('sang', true);
+
     if(!this.key1){
         this.key1 =this.key.create(this.ennemi1.x, this.ennemi1.y, 'key');
     }

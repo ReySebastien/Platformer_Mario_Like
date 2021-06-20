@@ -5,6 +5,7 @@ class VautourEnnemi extends Phaser.GameObjects.Sprite{
         
         scene.add.existing(this);
         scene.ennemi.add(this);
+        this.anims.play('vautour_vole', true);
 
     }
     
