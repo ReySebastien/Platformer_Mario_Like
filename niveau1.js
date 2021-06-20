@@ -30,8 +30,8 @@ create ()
     this.bordure.body.setAllowGravity(false);
     
     //CREATION PLAYER --------------------------------------------------------------------------------
-    //this.player = this.physics.add.sprite(20, 500, 'dude');
-    this.player = this.physics.add.sprite(4600, 100, 'dude');
+    this.player = this.physics.add.sprite(20, 500, 'dude');
+    //this.player = this.physics.add.sprite(4600, 100, 'dude');
 
     this.player.direction = 'right';
     this.player.setCollideWorldBounds(true);
@@ -394,6 +394,8 @@ getCle(key){
 getLasso(lasso1){
     this.lasso1.destroy();
     lasso = true;
+    this.interface_lasso.setTexture('lasso');
+
 }
     
 hitBordure(){

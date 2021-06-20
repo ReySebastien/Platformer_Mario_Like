@@ -43,6 +43,11 @@ create(){
     
     //AJOUT INTERFACE JOUEUR --------------------------------------------------------------------------
     this.hp = this.add.image(600,50, "barre_de_vie_3hp").setScrollFactor(0);
+    this.inventaire = this.add.image(730, 250, 'inventaire').setScrollFactor(0);
+    this.interface_lasso = this.add.image(730, 180, "lasso_vide").setScrollFactor(0);
+    this.revolver = this.add.image(730, 250, "revolver").setScrollFactor(0);
+    this.sceneText = this.add.text(690, 270, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
+    this.sceneText2 = this.add.text(720, 270, '/30', { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     
     // AJOUT DES BALLES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
@@ -158,6 +163,12 @@ update ()
     
     if (Phaser.Input.Keyboard.JustDown(this.boutonFeu)) {
             this.tirer(this.player);
+            balles -= 1;
+            this.sceneText.setText(balles);
+            if(balles <= 0){
+                balles = 0;
+                this.sceneText.setText(balles);
+            }
         }
     
     if(this.hook !== undefined){
@@ -301,7 +312,9 @@ hitEnnemi(player, ennemi){
     
  } // FIN HITENNEMI --------------------------------------------------------------------------------------------
     
-tirer(player) {
+tirer(player){
+    
+    if(pistolet == true && balles > 0){
 	    var coefDirX;
         var coefDirY;
         if (this.player.direction == 'left') { coefDirX = -1; } else if(this.player.direction == 'right') { coefDirX = 1 } else {coefDirX = 0}
@@ -312,6 +325,7 @@ tirer(player) {
         bullet.setCollideWorldBounds(false);
         bullet.body.allowGravity =false;
         bullet.setVelocity(1000 * coefDirX, 1000 * coefDirY); // vitesse en x et en y
+    }
 } // FIN TIRER ---------------------------------------------------------------------------------------------------
     
 hit (bullet, ennemi) {
