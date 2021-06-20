@@ -46,9 +46,12 @@ create(){
     this.inventaire = this.add.image(730, 250, 'inventaire').setScrollFactor(0);
     this.interface_lasso = this.add.image(730, 180, "lasso_vide").setScrollFactor(0);
     this.revolver = this.add.image(730, 250, "revolver").setScrollFactor(0);
+    this.interface_Gold_Coin = this.add.image(710, 340, "gold_coin_inventaire").setScrollFactor(0);
     this.sceneText = this.add.text(690, 270, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     this.sceneText2 = this.add.text(720, 270, '/30', { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
-    
+    this.sceneText3 = this.add.text(750, 327, argent, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
+
+
     // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
     this.projectiles = this.physics.add.group();
@@ -76,6 +79,7 @@ create(){
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
     this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
     this.physics.add.overlap(this.groupeBullets, this.boss, this.hitBoss, null, this);
+    this.physics.add.overlap(this.player, this.goldCoin, this.getGoldCoin, null, this);
     
     this.physics.add.collider(this.player, this.plateformes);
     this.plateformes.setCollisionByProperty({collides:true});
@@ -193,7 +197,7 @@ update ()
                 this.projectiles.create(bosses.x, bosses.y, 'balle').setVelocityX(300).body.setAllowGravity(false);
                 }
                 
-                else{
+                else if(bosses.direction == 'left'){
                 this.projectiles.create(bosses.x, bosses.y, 'balle').setVelocityX(-300).body.setAllowGravity(false);
 
                 }
@@ -331,6 +335,9 @@ hit (bullet, ennemi) {
     if(!this.key1){
         this.key1 =this.key.create(this.ennemi1.x, this.ennemi1.y, 'key');
     }
+    else{
+        this.goldCoin1 = this.goldCoin.create(ennemi.x, ennemi.y, 'gold_coin').body.setAllowGravity(false);;
+    }
 
 } // FIN HIT ------------------------------------------------------------------------------------------------------
     
@@ -341,6 +348,12 @@ hitBoss (bullet, boss) {
         boss.destroy();
     }
 } // FIN HITBOSS -------------------------------------------------------------------------------------------------
+    
+getGoldCoin(){
+    this.goldCoin1.destroy();
+    argent += 1;
+    this.sceneText3.setText(argent);
+} // FIN GETGOLDCOIN ---------------------------------------------------------------------------------------------------
     
 stop (hook){
         hook.setVelocityX(0);

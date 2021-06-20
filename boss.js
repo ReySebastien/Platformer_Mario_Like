@@ -9,6 +9,7 @@ class Boss extends Phaser.GameObjects.Sprite{
         this.timer = 0;
         this.toucher = false;
         
+        this.anims.play('boss_marche', true);
         scene.add.existing(this);
         scene.boss.add(this);
 
@@ -19,10 +20,12 @@ class Boss extends Phaser.GameObjects.Sprite{
                 
         if(player.body.x < this.body.x){
             this.flipX = false;
+            this.direction = 'left';
         }
 
         else if(player.body.x > this.body.x){
             this.flipX = true;
+            this.direction = 'right';
         }
 
         if(player.body.x < this.body.x && Math.abs(player.body.x-this.body.x) < 300){
@@ -57,11 +60,11 @@ class Boss extends Phaser.GameObjects.Sprite{
         }
 
 
-        if(Math.abs(player.body.x-this.body.x) <= 250 && this.cooldown == 0){
+        if(this.cooldown == 0){
             this.attack = true;
-            this.cooldown = 180;
-
+            this.cooldown = 60;
         }
+        
         return this.attack;
 
     }
