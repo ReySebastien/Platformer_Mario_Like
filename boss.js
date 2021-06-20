@@ -1,7 +1,13 @@
-class VautourEnnemi extends Phaser.GameObjects.Sprite{
+class Boss extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, image){
         super(scene, x, y, image);
         
+        this.attack = false;
+        this.cooldown = 0;
+        this.projectile = false;
+        this.direction = 'left';
+        this.timer = 0;
+        this.toucher = false;
         
         scene.add.existing(this);
         scene.boss.add(this);
@@ -51,5 +57,6 @@ class VautourEnnemi extends Phaser.GameObjects.Sprite{
             this.body.velocity.y = -500;
         }
     
+        
     }
 } // FIN CLASSE

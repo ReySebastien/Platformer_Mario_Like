@@ -31,7 +31,7 @@ create(){
     //CREATION ENNEMIS ----------------------------------------------------------------------------------
     this.boss = this.physics.add.group();
     this.ennemi = this.physics.add.group();
-
+    this.boss1 = new Boss(this, 800, 300, 'boss');
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
     this.cursors = this.input.keyboard.addKeys({
             's': Phaser.Input.Keyboard.KeyCodes.S, 
@@ -184,20 +184,20 @@ update ()
         }
     }
 
-    /*for(var i = 0; i < this.ennemi.getChildren().length; i++){
-            let ennemis = this.ennemi.getChildren()[0];
-            if(ennemis.ia(this.player)){
-                if(ennemis.direction == 'right') {
+    for(var i = 0; i < this.boss.getChildren().length; i++){
+            let bosses = this.boss.getChildren()[0];
+            if(bosses.ia(this.player)){
+                if(bosses.direction == 'right') {
                     
-                this.projectiles.create(ennemis.x, ennemis.y, 'balle').setVelocityX(300).body.setAllowGravity(false);
+                this.projectiles.create(bosses.x, bosses.y, 'balle').setVelocityX(300).body.setAllowGravity(false);
                 }
                 
                 else{
-                this.projectiles.create(ennemis.x, ennemis.y, 'balle').setVelocityX(-300).body.setAllowGravity(false);
+                this.projectiles.create(bosses.x, bosses.y, 'balle').setVelocityX(-300).body.setAllowGravity(false);
 
                 }
             }
-        }*/
+        }
     
 
 } // FIN UPDATE ------------------------------------------------------------------------------

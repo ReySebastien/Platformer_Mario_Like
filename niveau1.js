@@ -30,8 +30,8 @@ create ()
     this.bordure.body.setAllowGravity(false);
     
     //CREATION PLAYER --------------------------------------------------------------------------------
-    this.player = this.physics.add.sprite(20, 500, 'dude');
-    //this.player = this.physics.add.sprite(4600, 100, 'dude');
+    //this.player = this.physics.add.sprite(20, 500, 'dude');
+    this.player = this.physics.add.sprite(4600, 100, 'dude');
     this.player.direction = 'right';
     this.player.setCollideWorldBounds(true);
     
