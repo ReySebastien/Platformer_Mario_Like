@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene{
     
     preload()
     {
-        this.load.image('menu', 'assets/menuV2.png');
+        this.load.image('menu', 'assets/menuv2.png');
         this.load.image('jouerButton', 'assets/jouerButton.png');
         this.load.image('perso_test', 'assets_test/perso_test.png');
         this.load.image('sol', 'assets_test/bon_sol.png');
@@ -22,7 +22,7 @@ class Menu extends Phaser.Scene{
         this.load.image('lasso', 'assets/lasso.png');
         this.load.image('corde', 'assets/corde.png');
         this.load.image('lasso_corde', 'assets/lasso_corde.png');
-        this.load.image('cactus', 'assets/cactusV2.png');
+        this.load.image('cactus', 'assets/cactusv2.png');
         this.load.image('lasso_vide', 'assets/lasso_vide.png');
         this.load.image('bordure', 'assets/bordure.png');
         this.load.image('inventaire', 'assets/inventaire.png');
