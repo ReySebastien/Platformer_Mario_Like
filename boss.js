@@ -52,4 +52,4 @@ class VautourEnnemi extends Phaser.GameObjects.Sprite{
         }
     
     }
-}
+} // FIN CLASSE

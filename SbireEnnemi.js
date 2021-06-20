@@ -63,4 +63,4 @@ class SbireEnnemi extends Phaser.GameObjects.Sprite{
         }
         return this.attack;
     }
-}
+} // FIN CLASSE
