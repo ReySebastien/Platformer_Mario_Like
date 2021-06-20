@@ -6,7 +6,9 @@ class Menu extends Phaser.Scene{
     preload()
     {
         this.load.image('menu', 'assets/menuv2.png');
+        this.load.image('menu_option', 'assets/menuv3.png');
         this.load.image('jouerButton', 'assets/jouerButton.png');
+        this.load.image('optionButton', 'assets/optionButton.png');
         this.load.image('perso_test', 'assets_test/perso_test.png');
         this.load.image('sol', 'assets_test/bon_sol.png');
         this.load.image('ennemi', 'assets/ennemi_sbire_test.png');
@@ -64,6 +66,14 @@ class Menu extends Phaser.Scene{
 
         jouerButton.on("pointerdown", () => {
             this.scene.start('Niveau1', {x : 960, y : 540});
+        })
+        
+        let optionButton = this.add.image(this.game.renderer.width / 2 +1 , this.game.renderer.height / 3 - -95.5 , 'optionButton').setDepth(1);
+
+        optionButton.setInteractive();
+
+        optionButton.on("pointerdown", () => {
+            this.scene.start('Parametres', {x : 960, y : 540});
         })
         
     // AJOUT ANIMATION DU JOUEUR -----------------------------------------------------------------------
