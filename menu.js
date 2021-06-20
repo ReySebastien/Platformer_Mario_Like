@@ -27,6 +27,7 @@ class Menu extends Phaser.Scene{
         this.load.image('bordure', 'assets/bordure.png');
         this.load.image('inventaire', 'assets/inventaire.png');
         this.load.image('revolver', 'assets/revolver.png');
+        this.load.image('caisse_balles', 'assets/caisse_balles.png');
         this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
         this.load.spritesheet('sbire', 'assets/spritesheet_sbire.png', {frameWidth: 30, frameHeight: 45});
         this.load.spritesheet('boss', 'assets/spritesheet_boss.png', {frameWidth: 30, frameHeight: 45});

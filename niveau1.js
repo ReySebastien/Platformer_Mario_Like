@@ -30,7 +30,9 @@ create ()
     this.bordure.body.setAllowGravity(false);
     
     //CREATION PLAYER --------------------------------------------------------------------------------
-    this.player = this.physics.add.sprite(20, 500, 'dude');
+    //this.player = this.physics.add.sprite(20, 500, 'dude');
+    this.player = this.physics.add.sprite(4600, 100, 'dude');
+
     this.player.direction = 'right';
     this.player.setCollideWorldBounds(true);
     //CREATION ENNEMI -------------------------------------------------------------------------------
@@ -60,13 +62,16 @@ create ()
     this.hp = this.add.image(600,50, "barre_de_vie_3hp").setScrollFactor(0);
     this.inventaire = this.add.image(730, 250, 'inventaire').setScrollFactor(0);
     this.interface_lasso = this.add.image(730, 180, "lasso_vide").setScrollFactor(0);
-    this.revolver = this.add.image(710, 250, "revolver").setScrollFactor(0);
-    this.sceneText = this.add.text(750, 240, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
+    this.revolver = this.add.image(730, 250, "revolver").setScrollFactor(0);
+    this.sceneText = this.add.text(690, 270, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
+    this.sceneText2 = this.add.text(720, 270, '/30', { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
+
     // AJOUT DES BALLES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
     this.projectiles = this.physics.add.group();
     this.key = this.physics.add.group();
     this.goldCoin = this.physics.add.group();
+    this.caisse_munition = this.physics.add.image(4800, 100, 'caisse_balles');
     
     // CREATION DU LASSO ---------------------------------------------------------------------------------
     //this.hook = this.physics.add.group({});
@@ -84,13 +89,15 @@ create ()
     this.physics.add.collider(this.key, this.objets);
     this.physics.add.collider(this.key, this.sol);
     this.physics.add.collider(this.cactus, this.sol);
+    this.physics.add.collider(this.caisse_munition, this.sol);
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.player, this.cactus, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
     this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
-
+    this.physics.add.overlap(this.player, this.key, this.getCle, null, this);
+    this.physics.add.overlap(this.player, this.caisse_munition, this.getMunitions, null, this);
     
     this.physics.add.collider(this.player, this.objets);
     this.objets.setCollisionByProperty({collides:true});
@@ -100,10 +107,6 @@ create ()
     
     this.physics.add.collider(this.player, this.mortel,this.death,null,this);
     this.mortel.setCollisionByProperty({mortal:true});
-
-    
-    // CREATION DE L'APPEL DES FONCTIONS DU LASSO -------------------------------------------------------
-        this.physics.add.overlap(this.player, this.key, this.getCle, null, this);
     
     // AJOUT CAMERA -----------------------------------------------------------------------------------
     
@@ -398,5 +401,10 @@ hitBordure(){
     this.scene.start("Mine")
     vie = 3;
 }
-    
+getMunitions(){
+    this.caisse_munition.destroy();
+    balles = 30;
+    this.sceneText.setText(balles);
+
+}
 } //FIN SCENE ----------------------------------------------------------------------------------------------
