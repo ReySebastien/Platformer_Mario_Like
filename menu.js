@@ -7,7 +7,6 @@ class Menu extends Phaser.Scene{
     {
         this.load.image('menu', 'assets/menuV2.png');
         this.load.image('jouerButton', 'assets/jouerButton.png');
-        this.load.image('fond', 'assets/fond.png');
         this.load.image('perso_test', 'assets_test/perso_test.png');
         this.load.image('sol', 'assets_test/bon_sol.png');
         this.load.image('ennemi', 'assets/ennemi_sbire_test.png');
@@ -30,6 +29,7 @@ class Menu extends Phaser.Scene{
         this.load.image('revolver', 'assets/revolver.png');
         this.load.spritesheet('dude', 'assets/spritesheet_perso.png', { frameWidth: 30, frameHeight: 45});
         this.load.spritesheet('sbire', 'assets/spritesheet_sbire.png', {frameWidth: 30, frameHeight: 45});
+        this.load.spritesheet('boss', 'assets/spritesheet_boss.png', {frameWidth: 30, frameHeight: 45});
         this.load.tilemapTiledJSON('map_jeu', 'test_map.json');
         this.load.image('map', 'assets/tileset.png');
         this.load.tilemapTiledJSON('map_mine', 'map_mine.json');
@@ -86,11 +86,20 @@ class Menu extends Phaser.Scene{
     })
     
     
-    // AJOUT ANIMATION SBIRES
+    // AJOUT ANIMATION SBIRES ----------------------------------------------------------------------------------
     
     this.anims.create({
       key: "sbire_marche",
       frames: this.anims.generateFrameNumbers("sbire", { start: 1, end: 3 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+        
+    // AJOUT ANIMATION BOSS --------------------------------------------------------------------------------------
+        
+    this.anims.create({
+      key: "boss_marche",
+      frames: this.anims.generateFrameNumbers("boss", { start: 1, end: 3 }),
       frameRate: 10,
       repeat: -1,
     });

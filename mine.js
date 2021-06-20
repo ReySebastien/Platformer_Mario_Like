@@ -28,6 +28,10 @@ create(){
     this.player.setCollideWorldBounds(true);
     lasso = true;
     
+    //CREATION ENNEMIS ----------------------------------------------------------------------------------
+    this.boss = this.physics.add.group();
+    this.ennemi = this.physics.add.group();
+
     //AJOUT VARIABLE TOUCHES CLAVIER ------------------------------------------------------------------
     this.cursors = this.input.keyboard.addKeys({
             's': Phaser.Input.Keyboard.KeyCodes.S, 
@@ -50,18 +54,23 @@ create(){
     this.physics.add.collider(this.player, this.sol);
     this.physics.add.collider(this.player, this.plateformes);
 
-    /*this.physics.add.collider(this.ennemi, this.sol);
+    this.physics.add.collider(this.ennemi, this.sol);
     this.physics.add.collider(this.ennemi, this.plateformes);
-    this.physics.add.collider(this.goldCoin, this.sol);
-    this.physics.add.collider(this.goldCoin, this.plateformes);
     this.physics.add.collider(this.ennemi, this.objets);
-    this.physics.add.collider(this.goldCoin, this.objets);*/
+    this.physics.add.collider(this.boss, this.sol);
+    this.physics.add.collider(this.boss, this.plateformes);
+    this.physics.add.collider(this.boss, this.objets);
+    //this.physics.add.collider(this.goldCoin, this.sol);
+    //this.physics.add.collider(this.goldCoin, this.plateformes);
+    //this.physics.add.collider(this.goldCoin, this.objets);
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.player, this.cactus, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
     this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
+    this.physics.add.overlap(this.groupeBullets, this.boss, this.hitBoss, null, this);
+
 
     
     this.physics.add.collider(this.player, this.plateformes);
@@ -313,6 +322,14 @@ hit (bullet, ennemi) {
     }
 
 } // FIN HIT ------------------------------------------------------------------------------------------------------
+    
+hitBoss (bullet, boss) {
+        bullet.destroy();
+        vie_boss -= 1;
+    if(vie_boss == 0){
+        boss.destroy();
+    }
+}
     
 stop (hook)        
     {
