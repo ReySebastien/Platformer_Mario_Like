@@ -49,7 +49,7 @@ create(){
     this.sceneText = this.add.text(690, 270, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     this.sceneText2 = this.add.text(720, 270, '/30', { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     
-    // AJOUT DES BALLES -------------------------------------------------------------------------------
+    // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
     this.projectiles = this.physics.add.group();
     this.key = this.physics.add.group();
@@ -75,8 +75,6 @@ create(){
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
     this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
     this.physics.add.overlap(this.groupeBullets, this.boss, this.hitBoss, null, this);
-
-
     
     this.physics.add.collider(this.player, this.plateformes);
     this.plateformes.setCollisionByProperty({collides:true});
@@ -88,13 +86,11 @@ create(){
     this.murs.setCollisionByProperty({collides:true});
     
     // AJOUT CAMERA -----------------------------------------------------------------------------------
-    
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
     this.cameras.main.setSize(config.width, config.height);
     this.cameras.main.startFollow(this.player);
     
     //AJOUT DE LA FONCTION DE TIR SI ON CLIQUE --------------------------------------------------------------
-
     this.input.on('pointerdown', this.shoot, this);
  
 } // FIN CREATE ----------------------------------------------------------------------------------------------
@@ -343,18 +339,17 @@ hitBoss (bullet, boss) {
     if(vie_boss == 0){
         boss.destroy();
     }
-}
+} // FIN HITBOSS -------------------------------------------------------------------------------------------------
     
-stop (hook)        
-    {
+stop (hook){
         hook.setVelocityX(0);
         hook.setVelocityY(0);
-    }
+} // FIN STOP ----------------------------------------------------------------------------------------------------
     
 death(){
     vie = 0;
     this.physics.pause();
     this.player.setTint('0xff0000');
-}
+} // FIN DEATH ----------------------------------------------------------------------------------------------------
     
-} //FIN SCENE ----------------------------------------------------------------------------------------------
+} //FIN SCENE 
