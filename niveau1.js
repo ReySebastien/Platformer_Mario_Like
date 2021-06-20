@@ -303,6 +303,8 @@ hookHitEnnemies(hook, ennemi){
         this.rope.destroy();
         this.hook.destroy();
         nombreLasso = 1
+        this.sang1 = this.sang.create(ennemi.x, ennemi.y, 'sang');
+        this.sang1.anims.play('sang', true);
     }, null, this);
     
     
