@@ -61,7 +61,7 @@ create ()
     this.inventaire = this.add.image(730, 250, 'inventaire').setScrollFactor(0);
     this.interface_lasso = this.add.image(730, 180, "lasso_vide").setScrollFactor(0);
     this.revolver = this.add.image(710, 250, "revolver").setScrollFactor(0);
-    
+    this.sceneText = this.add.text(750, 240, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     // AJOUT DES BALLES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
     this.projectiles = this.physics.add.group();
@@ -187,6 +187,12 @@ update ()
     
     if (Phaser.Input.Keyboard.JustDown(this.boutonFeu)) {
             this.tirer(this.player);
+            balles -= 1;
+            this.sceneText.setText(balles);
+            if(balles <= 0){
+                balles = 0;
+                this.sceneText.setText(balles);
+            }
         }
     
     if(this.hook !== undefined){
@@ -332,7 +338,7 @@ hitEnnemi(player, ennemi){
 
 tirer(player){
     
-    if(pistolet == true){
+    if(pistolet == true && balles > 0){
 	    var coefDirX;
         var coefDirY;
         if (this.player.direction == 'left') { coefDirX = -1; } else if(this.player.direction == 'right') { coefDirX = 1 } else {coefDirX = 0}
