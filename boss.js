@@ -33,14 +33,6 @@ class Boss extends Phaser.GameObjects.Sprite{
             this.body.setAccelerationX(600);
         }
         
-        if(player.body.y < this.body.y && Math.abs(player.body.y-this.body.y)){
-            this.body.setAccelerationY(-600);
-        }
-        
-        else if(player.body.y > this.body.y && Math.abs(player.body.y-this.body.y)){
-            this.body.setAccelerationY(600);
-        }
-        
         if(this.body.velocity.x > 500){
             this.body.velocity.x = 500;
         }
@@ -56,7 +48,21 @@ class Boss extends Phaser.GameObjects.Sprite{
         else if(this.body.velocity.y < -500){
             this.body.velocity.y = -500;
         }
-    
-        
+        if(this.cooldown > 0){
+            this.cooldown--;
+        }
+
+        if(this.attack){
+            this.attack = false;
+        }
+
+
+        if(Math.abs(player.body.x-this.body.x) <= 250 && this.cooldown == 0){
+            this.attack = true;
+            this.cooldown = 180;
+
+        }
+        return this.attack;
+
     }
 } // FIN CLASSE

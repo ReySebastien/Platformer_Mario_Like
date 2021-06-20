@@ -65,6 +65,7 @@ create(){
     this.physics.add.collider(this.boss, this.sol);
     this.physics.add.collider(this.boss, this.plateformes);
     this.physics.add.collider(this.boss, this.objets);
+    this.physics.add.collider(this.boss, this.murs);
     //this.physics.add.collider(this.goldCoin, this.sol);
     //this.physics.add.collider(this.goldCoin, this.plateformes);
     //this.physics.add.collider(this.goldCoin, this.objets);
