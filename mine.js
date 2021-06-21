@@ -43,6 +43,13 @@ create(){
     this.boutonFeu = this.input.keyboard.addKey('space');
     
     
+    // AJOUT MUSIQUE ----------------------------------------------------------------------------------
+    var music = this.sound.add('grotte', config);
+    music.play(config);
+    this.cri = this.sound.add('cri');
+    this.cri_perso = this.sound.add('cri_perso');
+    this.corde_son = this.sound.add('corde_son');
+    
     // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
     this.groupeBullets = this.physics.add.group();
     this.projectiles = this.physics.add.group();
@@ -271,6 +278,7 @@ update ()
     console.log(this.cameras.main.scrollX, this.cameras.main.scrollY);
     
         if(lasso == true && nombreLasso == 1){
+        this.corde_son.play();
         nombreLasso -= 1
         this.hook = this.physics.add.image(this.player.x, this.player.y, 'lasso_corde');
         this.hook.hookedSomething = false;
@@ -388,6 +396,7 @@ hitBossAie(player, boss){
         this.player.setTint(0xff0000);
         this.physics.pause();
         this.gameOver = true;
+        this.cri_perso.play();
     }
     
  } // FIN HITBOSSAIE --------------------------------------------------------------------------------------------

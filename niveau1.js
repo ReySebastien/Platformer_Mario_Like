@@ -30,11 +30,13 @@ create ()
     this.bordure.body.setAllowGravity(false);
     
     // AJOUT MUSIQUE ----------------------------------------------------------------------------------
-    var music = this.sound.add('musique_jeu', config);
-    music.play(config);
+    this.music = this.sound.add('musique_jeu', config);
+    this.music.play(config);
     this.cri = this.sound.add('cri');
     this.oiseau_meurt = this.sound.add('oiseau_meurt');
     this.plouf = this.sound.add('plouf');
+    this.cri_perso = this.sound.add('cri_perso');
+    this.corde_son = this.sound.add('corde_son');
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(20, 500, 'dude');
     //this.player = this.physics.add.sprite(4600, 100, 'dude');
@@ -202,6 +204,7 @@ update ()
     }
     
     else if (vie == 0){
+        this.cri_perso.play();
         this.hp.setTexture("barre_de_vie_0hp");
         this.add.image(400, 336, 'game_over').setScrollFactor(0);
     }
@@ -273,8 +276,8 @@ update ()
     console.log(pointer.x, pointer.y);
     console.log(this.player.x, this.player.y);
     console.log(this.cameras.main.scrollX, this.cameras.main.scrollY);
-    
         if(lasso == true && nombreLasso == 1){
+        this.corde_son.play();
         nombreLasso -= 1
         this.hook = this.physics.add.image(this.player.x, this.player.y, 'lasso_corde');
         this.hook.hookedSomething = false;
@@ -370,6 +373,7 @@ hitEnnemi(player, ennemi){
     }
      
      if(vie == 0){
+        this.cri_perso.play();
         this.player.setTint(0xff0000);
         this.physics.pause();
         this.gameOver = true;
@@ -391,6 +395,7 @@ hitVautourAie(player, vautour){
     }
      
      if(vie == 0){
+        this.cri_perso.play();
         this.player.setTint(0xff0000);
         this.physics.pause();
         this.gameOver = true;
@@ -475,9 +480,10 @@ getGoldCoin(player, goldCoin){
     this.sceneText3.setText(argent);
 } // FIN GETGOLDCOIN ---------------------------------------------------------------------------------------------------
     
-hitBordure(){   
+hitBordure(){
+    this.music.setMute(true);
     this.scene.start("Mine")
-} // FIN HITBORDURE ------------------------------------------------------------------------------------------------------
+    } // FIN HITBORDURE ------------------------------------------------------------------------------------------------------
     
 getMunitions(){
     this.caisse_munition.destroy();
