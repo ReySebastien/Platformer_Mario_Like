@@ -33,6 +33,8 @@ create ()
     var music = this.sound.add('musique_jeu', config);
     music.play(config);
     this.cri = this.sound.add('cri');
+    this.oiseau_meurt = this.sound.add('oiseau_meurt');
+    this.plouf = this.sound.add('plouf');
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(20, 500, 'dude');
     //this.player = this.physics.add.sprite(4600, 100, 'dude');
@@ -44,8 +46,8 @@ create ()
     this.vautour = this.physics.add.group();
     this.ennemi1 = new SbireEnnemi(this, 400, 300, 'ennemi');
     new SbireEnnemi(this, 800,300, 'ennemi');
-    this.vautour1 = new VautourEnnemi(this, 4000, 100, 'vautour').body.setAllowGravity(false);
-    this.vautour2 = new VautourEnnemi(this, 4200, 100, 'vautour').body.setAllowGravity(false);
+    new VautourEnnemi(this, 4000, 100, 'vautour').body.setAllowGravity(false);
+    new VautourEnnemi(this, 4200, 100, 'vautour').body.setAllowGravity(false);
     this.cactus = this.physics.add.group();
     this.cactus1 = this.cactus.create(1200, 300, 'cactus');
     this.cactus2 = this.cactus.create(1500, 300, 'cactus');
@@ -99,10 +101,13 @@ create ()
     this.physics.add.collider(this.caisse_vie, this.sol);
     this.physics.add.collider(this.sang, this.platforms);
     this.physics.add.collider(this.sang, this.sol);
+    this.physics.add.collider(this.vautour, this.objets);
+    this.physics.add.collider(this.vautour, this.sol);
+    this.physics.add.collider(this.vautour, this.platforme);
+
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
-    this.physics.add.overlap(this.player, this.ennemi, this.hitVautour, null, this);
     this.physics.add.overlap(this.player, this.cactus, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
     this.physics.add.overlap(this.groupeBullets, this.vautour, this.hitVautour, null, this);
@@ -238,6 +243,21 @@ update ()
                 
                 else{
                 this.projectiles.create(ennemis.x, ennemis.y, 'balle').setVelocityX(-300).body.setAllowGravity(false);
+
+                }
+            }
+        }
+    
+    for(var i = 0; i < this.vautour.getChildren().length; i++){
+            let vautours = this.vautour.getChildren()[0];
+            if(vautours.ia(this.player)){
+                if(vautours.direction == 'right') {
+                    
+                this.projectiles.create(vautours.x, vautours.y, 'balle').setVelocityX(300).body.setAllowGravity(false);
+                }
+                
+                else{
+                this.projectiles.create(vautours.x, vautours.y, 'balle').setVelocityX(-300).body.setAllowGravity(false);
 
                 }
             }
@@ -427,6 +447,7 @@ stop (hook){
     
 death(){
     vie = 0;
+    this.plouf.play();
     this.physics.pause();
     this.player.setTint('0xff0000');
 } // FIN DEATH -------------------------------------------------------------------------------------------------------

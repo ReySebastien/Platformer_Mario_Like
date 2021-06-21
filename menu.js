@@ -60,6 +60,7 @@ class Menu extends Phaser.Scene{
         this.load.audio('musique_jeu', 'soundDesign/Kikou.ogg');
         this.load.audio('cri', 'soundDesign/cri.ogg');
         this.load.audio('oiseau_meurt', 'soundDesign/oiseau_meurt.ogg');
+        this.load.audio('plouf', 'soundDesign/plouf.ogg');
 
 
     } // FIN PRELOAD
