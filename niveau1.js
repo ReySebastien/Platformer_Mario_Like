@@ -415,7 +415,6 @@ getGoldCoin(){
     
 hitBordure(){   
     this.scene.start("Mine")
-    vie = 3;
 } // FIN HITBORDURE ------------------------------------------------------------------------------------------------------
     
 getMunitions(){

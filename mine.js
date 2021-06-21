@@ -27,6 +27,7 @@ create(){
     this.player.direction = 'right';
     this.player.setCollideWorldBounds(true);
     lasso = true;
+    vie = 3;
     
     //CREATION ENNEMIS ----------------------------------------------------------------------------------
     this.boss = this.physics.add.group();

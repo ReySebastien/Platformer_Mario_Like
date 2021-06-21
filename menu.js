@@ -12,6 +12,7 @@ class Menu extends Phaser.Scene{
         this.load.image('controlesButton', 'assets/controles.png');
         this.load.image('directBossButton', 'assets/aller_direct_au_boss.png');
         this.load.image('retourButton', 'assets/retour.png');
+        this.load.image('controlesEcran', 'assets/controles_ecran.png');
         this.load.image('perso_test', 'assets_test/perso_test.png');
         this.load.image('sol', 'assets_test/bon_sol.png');
         this.load.image('ennemi', 'assets/ennemi_sbire_test.png');
