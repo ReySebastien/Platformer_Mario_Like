@@ -39,7 +39,6 @@ create ()
     this.corde_son = this.sound.add('corde_son');
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(20, 500, 'dude');
-    //this.player = this.physics.add.sprite(4600, 100, 'dude');
     this.player.direction = 'right';
     this.player.setCollideWorldBounds(true);
     
