@@ -233,6 +233,9 @@ update ()
                 }
             }
         }
+    if(lasso == true){
+        this.interface_lasso.setTexture('lasso');
+    }
     
 
 } // FIN UPDATE ------------------------------------------------------------------------------
@@ -402,7 +405,6 @@ getCle(key){
 getLasso(lasso1){
     this.lasso1.destroy();
     lasso = true;
-    this.interface_lasso.setTexture('lasso');
 } // FIN GETLASSO -----------------------------------------------------------------------------------------------------
 
 getGoldCoin(){

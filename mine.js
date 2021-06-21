@@ -248,6 +248,10 @@ update ()
         this.physics.pause();
     }
     
+    if(lasso == true){
+        this.interface_lasso.setTexture('lasso');
+    }
+    
 } // FIN UPDATE ------------------------------------------------------------------------------
     
     shoot (pointer){    

@@ -9,6 +9,8 @@ class Menu extends Phaser.Scene{
         this.load.image('menu_option', 'assets/menuv3.png');
         this.load.image('jouerButton', 'assets/jouerButton.png');
         this.load.image('optionButton', 'assets/optionButton.png');
+        this.load.image('controlesButton', 'assets/controles.png');
+        this.load.image('directBossButton', 'assets/aller_direct_au_boss.png');
         this.load.image('perso_test', 'assets_test/perso_test.png');
         this.load.image('sol', 'assets_test/bon_sol.png');
         this.load.image('ennemi', 'assets/ennemi_sbire_test.png');
