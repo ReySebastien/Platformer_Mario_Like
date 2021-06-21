@@ -4,10 +4,7 @@ class Controles extends Phaser.Scene{
     }
 create(){
     
+    
     } // FIN CREATE ----------------------------------------------------------------
-    
-    
-    
-    
-    
+
 } // FIN SCENE
