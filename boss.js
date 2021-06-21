@@ -1,4 +1,4 @@
-class Boss extends Phaser.GameObjects.Sprite{
+class Boss extends Phaser.GameObjects.Sprite{    
     constructor(scene, x, y, image){
         super(scene, x, y, image);
         
@@ -12,7 +12,6 @@ class Boss extends Phaser.GameObjects.Sprite{
         this.anims.play('boss_marche', true);
         scene.add.existing(this);
         scene.boss.add(this);
-
     }
     
     
