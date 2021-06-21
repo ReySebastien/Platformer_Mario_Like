@@ -64,6 +64,7 @@ class Menu extends Phaser.Scene{
         this.load.audio('cri_perso', 'soundDesign/cri_perso.ogg');
         this.load.audio('corde_son', 'soundDesign/corde.ogg');
         this.load.audio('grotte', 'soundDesign/grotte.ogg');
+        this.load.audio('grotte_musique', 'soundDesign/grotte_musique.ogg');
 
 
     } // FIN PRELOAD

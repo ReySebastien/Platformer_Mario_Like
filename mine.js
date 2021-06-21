@@ -42,10 +42,11 @@ create(){
         });
     this.boutonFeu = this.input.keyboard.addKey('space');
     
-    
     // AJOUT MUSIQUE ----------------------------------------------------------------------------------
-    var music = this.sound.add('grotte', config);
+    var music = this.sound.add('grotte_musique', config);
     music.play(config);
+    this.grotte = this.sound.add('grotte');
+    this.grotte.play();
     this.cri = this.sound.add('cri');
     this.cri_perso = this.sound.add('cri_perso');
     this.corde_son = this.sound.add('corde_son');
@@ -262,7 +263,7 @@ update ()
     
     else if(vie_boss == 0){
         this.hp_boss.setTexture("boss_0hp");
-        this.add.image(400, 228, "victoire");
+        this.add.image(400, 228, "victoire").setScrollFactor(0);
         this.physics.pause();
     }
     
