@@ -57,6 +57,15 @@ create ()
             'z': Phaser.Input.Keyboard.KeyCodes.Z,
         });
     this.boutonFeu = this.input.keyboard.addKey('space');
+    
+    // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
+    this.groupeBullets = this.physics.add.group();
+    this.projectiles = this.physics.add.group();
+    this.key = this.physics.add.group();
+    this.goldCoin = this.physics.add.group();
+    this.caisse_munition = this.physics.add.image(4800, 100, 'caisse_balles');
+    this.caisse_vie = this.physics.add.image(4600, 100, 'caisse_vie');
+    this.sang = this.physics.add.group();
 
     //AJOUT INTERFACE JOUEUR --------------------------------------------------------------------------
     this.hp = this.add.image(600,50, "barre_de_vie_3hp").setScrollFactor(0);
@@ -67,15 +76,6 @@ create ()
     this.sceneText = this.add.text(690, 270, balles, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     this.sceneText2 = this.add.text(720, 270, '/30', { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
     this.sceneText3 = this.add.text(750, 327, argent, { fontSize: '28px', fill: '#fff' }).setScrollFactor(0);
-
-
-    // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
-    this.groupeBullets = this.physics.add.group();
-    this.projectiles = this.physics.add.group();
-    this.key = this.physics.add.group();
-    this.goldCoin = this.physics.add.group();
-    this.caisse_munition = this.physics.add.image(4800, 100, 'caisse_balles');
-    this.sang = this.physics.add.group();
     
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
@@ -91,6 +91,7 @@ create ()
     this.physics.add.collider(this.key, this.sol);
     this.physics.add.collider(this.cactus, this.sol);
     this.physics.add.collider(this.caisse_munition, this.sol);
+    this.physics.add.collider(this.caisse_vie, this.sol);
     this.physics.add.collider(this.sang, this.platforms);
     this.physics.add.collider(this.sang, this.sol);
     
@@ -101,6 +102,7 @@ create ()
     this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
     this.physics.add.overlap(this.player, this.key, this.getCle, null, this);
     this.physics.add.overlap(this.player, this.caisse_munition, this.getMunitions, null, this);
+    this.physics.add.overlap(this.player, this.caisse_vie, this.getVie, null, this);
     this.physics.add.overlap(this.player, this.goldCoin, this.getGoldCoin, null, this);
     
     this.physics.add.collider(this.player, this.objets);
@@ -407,8 +409,8 @@ getLasso(lasso1){
     lasso = true;
 } // FIN GETLASSO -----------------------------------------------------------------------------------------------------
 
-getGoldCoin(){
-    this.goldCoin1.destroy();
+getGoldCoin(player, goldCoin){
+    goldCoin.destroy();
     argent += 1;
     this.sceneText3.setText(argent);
 } // FIN GETGOLDCOIN ---------------------------------------------------------------------------------------------------
@@ -422,5 +424,10 @@ getMunitions(){
     balles = 30;
     this.sceneText.setText(balles);
 } // FIN GETMUNITIONS --------------------------------------------------------------------------------------------------
+  
+getVie(){
+    this.caisse_vie.destroy();
+    vie = 3;
+} // FIN GETVIE --------------------------------------------------------------------------------------------------
     
 } //FIN SCENE

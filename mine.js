@@ -42,6 +42,15 @@ create(){
         });
     this.boutonFeu = this.input.keyboard.addKey('space');
     
+    
+    // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
+    this.groupeBullets = this.physics.add.group();
+    this.projectiles = this.physics.add.group();
+    this.key = this.physics.add.group();
+    this.goldCoin = this.physics.add.group();
+    this.caisse_munition = this.physics.add.image(800, 100, 'caisse_balles');
+    this.caisse_vie = this.physics.add.image(900, 100, 'caisse_vie');
+    
     // AJOUT INTERFACE JOUEUR --------------------------------------------------------------------------
     this.hp = this.add.image(600,50, "barre_de_vie_3hp").setScrollFactor(0);
     this.inventaire = this.add.image(730, 250, 'inventaire').setScrollFactor(0);
@@ -55,12 +64,6 @@ create(){
     // AJOUT BARRE DE VIE BOSS --------------------------------------------------------------------------------
     
     this.hp_boss = this.add.image(50, 230, 'boss_10hp').setScrollFactor(0);
-
-    // AJOUT DES DIFFERENTS GROUPES -------------------------------------------------------------------------------
-    this.groupeBullets = this.physics.add.group();
-    this.projectiles = this.physics.add.group();
-    this.key = this.physics.add.group();
-    this.goldCoin = this.physics.add.group();
     
     //AJOUT DES COLLIDERS ------------------------------------------------------------------------------
     this.physics.add.collider(this.player, this.sol);
@@ -73,17 +76,24 @@ create(){
     this.physics.add.collider(this.boss, this.plateformes);
     this.physics.add.collider(this.boss, this.objets);
     this.physics.add.collider(this.boss, this.murs);
+    this.physics.add.collider(this.caisse_munition, this.sol);
+    this.physics.add.collider(this.caisse_vie, this.sol);
+    this.physics.add.collider(this.caisse_munition, this.plateformes);
+    this.physics.add.collider(this.caisse_vie, this.plateformes);
     //this.physics.add.collider(this.goldCoin, this.sol);
     //this.physics.add.collider(this.goldCoin, this.plateformes);
     //this.physics.add.collider(this.goldCoin, this.objets);
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
+    this.physics.add.overlap(this.player, this.boss, this.hitBossAie, null, this);
     this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.player, this.cactus, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
     this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
     this.physics.add.overlap(this.groupeBullets, this.boss, this.hitBoss, null, this);
     this.physics.add.overlap(this.player, this.goldCoin, this.getGoldCoin, null, this);
+    this.physics.add.overlap(this.player, this.caisse_munition, this.getMunitions, null, this);
+    this.physics.add.overlap(this.player, this.caisse_vie, this.getVie, null, this);
     
     this.physics.add.collider(this.player, this.plateformes);
     this.plateformes.setCollisionByProperty({collides:true});
@@ -361,6 +371,27 @@ hitEnnemi(player, ennemi){
     
  } // FIN HITENNEMI --------------------------------------------------------------------------------------------
     
+hitBossAie(player, boss){
+     
+    if (!invulnerabilite){
+        vie -= 1;
+        invulnerabilite = true;
+        
+        if(vie > 0){
+            this.clignotement = this.time.addEvent({ delay : 200, repeat: 9, callback: function(){this.player.visible = !this.player.visible;}, callbackScope: this});
+        }
+        
+        this.tempsInvulnerabilite = this.time.addEvent({ delay : 2000, callback: function(){invulnerabilite = false}, callbackScope: this});
+    }
+     
+     if(vie == 0){
+        this.player.setTint(0xff0000);
+        this.physics.pause();
+        this.gameOver = true;
+    }
+    
+ } // FIN HITBOSSAIE --------------------------------------------------------------------------------------------
+    
 tirer(player){
     
     if(pistolet == true && balles > 0){
@@ -413,5 +444,16 @@ death(){
     this.physics.pause();
     this.player.setTint('0xff0000');
 } // FIN DEATH ----------------------------------------------------------------------------------------------------
+    
+getMunitions(){
+    this.caisse_munition.destroy();
+    balles = 30;
+    this.sceneText.setText(balles);
+} // FIN GETMUNITIONS --------------------------------------------------------------------------------------------------
+  
+getVie(){
+    this.caisse_vie.destroy();
+    vie = 3;
+} // FIN GETVIE --------------------------------------------------------------------------------------------------
     
 } //FIN SCENE 
