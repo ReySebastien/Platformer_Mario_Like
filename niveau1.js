@@ -29,6 +29,10 @@ create ()
     this.bordure = this.physics.add.image(4890, 400, 'bordure');
     this.bordure.body.setAllowGravity(false);
     
+    // AJOUT MUSIQUE ----------------------------------------------------------------------------------
+    var music = this.sound.add('musique_jeu', config);
+    music.play(config);
+    this.cri = this.sound.add('cri');
     //CREATION PLAYER --------------------------------------------------------------------------------
     this.player = this.physics.add.sprite(20, 500, 'dude');
     //this.player = this.physics.add.sprite(4600, 100, 'dude');
@@ -37,6 +41,7 @@ create ()
     
     //CREATION ENNEMI -------------------------------------------------------------------------------
     this.ennemi = this.physics.add.group();
+    this.vautour = this.physics.add.group();
     this.ennemi1 = new SbireEnnemi(this, 400, 300, 'ennemi');
     new SbireEnnemi(this, 800,300, 'ennemi');
     this.vautour1 = new VautourEnnemi(this, 4000, 100, 'vautour').body.setAllowGravity(false);
@@ -97,8 +102,10 @@ create ()
     
     this.physics.add.overlap(this.player, this.ennemi, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.projectiles, this.player, this.hitEnnemi, null, this);
+    this.physics.add.overlap(this.player, this.ennemi, this.hitVautour, null, this);
     this.physics.add.overlap(this.player, this.cactus, this.hitEnnemi, null, this);
     this.physics.add.overlap(this.groupeBullets, this.ennemi, this.hit, null, this);
+    this.physics.add.overlap(this.groupeBullets, this.vautour, this.hitVautour, null, this);
     this.physics.add.overlap(this.player, this.bordure, this.hitBordure, null, this);
     this.physics.add.overlap(this.player, this.key, this.getCle, null, this);
     this.physics.add.overlap(this.player, this.caisse_munition, this.getMunitions, null, this);
@@ -349,6 +356,27 @@ hitEnnemi(player, ennemi){
     }
     
  } // FIN HITENNEMI --------------------------------------------------------------------------------------------
+    
+hitVautourAie(player, vautour){
+     
+    if (!invulnerabilite){
+        vie -= 1;
+        invulnerabilite = true;
+        
+        if(vie > 0){
+            this.clignotement = this.time.addEvent({ delay : 200, repeat: 9, callback: function(){this.player.visible = !this.player.visible;}, callbackScope: this});
+        }
+        
+        this.tempsInvulnerabilite = this.time.addEvent({ delay : 2000, callback: function(){invulnerabilite = false}, callbackScope: this});
+    }
+     
+     if(vie == 0){
+        this.player.setTint(0xff0000);
+        this.physics.pause();
+        this.gameOver = true;
+    }
+    
+ } // FIN HITVAUTOURAIE --------------------------------------------------------------------------------------------
 
 tirer(player){
     
@@ -369,6 +397,7 @@ tirer(player){
 hit (bullet, ennemi) {
         bullet.destroy();
         ennemi.destroy();
+        this.cri.play();
         this.sang1 = this.sang.create(ennemi.x, ennemi.y, 'sang');
         this.sang1.anims.play('sang', true);
 
@@ -380,6 +409,16 @@ hit (bullet, ennemi) {
     }
 
 } // FIN HIT ------------------------------------------------------------------------------------------------------
+
+hitVautour (bullet, vautour) {
+        bullet.destroy();
+        vautour.destroy();
+        this.oiseau_meurt.play();
+        this.sang1 = this.sang.create(vautour.x, vautour.y, 'sang');
+        this.sang1.anims.play('sang', true);
+        this.goldCoin1 = this.goldCoin.create(vautour.x, vautour.y, 'gold_coin').body.setAllowGravity(false);
+
+} // FIN HITVAUTOUR ------------------------------------------------------------------------------------------------------
 
 stop (hook){
         hook.setVelocityX(0);

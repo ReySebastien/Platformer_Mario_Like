@@ -56,6 +56,11 @@ class Menu extends Phaser.Scene{
         this.load.image('map', 'assets/tileset.png');
         this.load.tilemapTiledJSON('map_mine', 'map_mine.json');
         this.load.image('tileset_mine', 'assets/tileset_mine.png');
+        
+        this.load.audio('musique_jeu', 'soundDesign/Kikou.ogg');
+        this.load.audio('cri', 'soundDesign/cri.ogg');
+        this.load.audio('oiseau_meurt', 'soundDesign/oiseau_meurt.ogg');
+
 
     } // FIN PRELOAD
         
